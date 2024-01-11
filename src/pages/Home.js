@@ -1,14 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-const Home = () => {
+export const Home = () => {
   return (
-    <div>
-      <h2>Welcome to Our Website!</h2>
-      <p>
-        My New Website
-      </p>
-    </div>
-  );
-};
-
-export default Home;
+    <div>Home Page</div>
+  )
+}
