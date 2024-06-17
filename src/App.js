@@ -1,19 +1,27 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
+import { SignUp } from './pages/SignUp';
 import AboutUs from './pages/About';
-import {Navbar} from './components/Navbar'
+import { Navbar } from './components/Navbar'
+import Profile from './pages/Profile';
+import { Login } from './pages/Login';
+import { AuthProvider } from './pages/auth';
+
 
 function App() {
   return (
-    <>
-      <Navbar/>
+    <AuthProvider>
+      <Navbar />
       <Routes>
-        <Route path='/' element = {<Home/>}></Route>
-        <Route path='about' element = {<AboutUs/>}></Route>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='about' element={<AboutUs />}></Route>
+        <Route path='signup' element={<SignUp />}></Route>
+        <Route path='login' element={<Login />}></Route>
+        <Route path='profile' element={<Profile />}></Route>
       </Routes>
-    </>
-    
+    </AuthProvider>
+
   );
 }
 
