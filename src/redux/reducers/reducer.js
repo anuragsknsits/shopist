@@ -1,4 +1,4 @@
-import { FETCH_AUTH_KEY } from "./constant"
+import { FETCH_AUTH_KEY } from "../constant"
 
 export const authKey = (data = [], action) => {
     switch (action.type) {

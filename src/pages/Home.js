@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchAuthKey } from '../redux/action';
+import { fetchAuthKey } from '../redux/actions/action';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Home = () => {

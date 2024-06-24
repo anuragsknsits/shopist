@@ -1,4 +1,4 @@
-import { FETCH_AUTH_KEY, SET_AUTH_KEY } from "./constant";
+import { FETCH_AUTH_KEY, SET_AUTH_KEY } from "../constant";
 
 export const fetchAuthKey = (data) => {
     console.log("Action called", data);
