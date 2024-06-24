@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
-import { SignUp } from './pages/SignUp';
+import { SignUp } from './components/auth/SignUp';
 import AboutUs from './pages/About';
 import { Navbar } from './components/Navbar'
 import Profile from './pages/Profile';
-import { Login } from './pages/Login';
+import { Login } from './components/auth/Login';
 import { AuthProvider } from './pages/auth';
 
 

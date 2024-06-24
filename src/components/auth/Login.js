@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useAuth } from './auth'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 export const Login = () => {
@@ -20,14 +18,6 @@ export const Login = () => {
      
     };
 
-    const auth = useAuth()
-    const navigate = useNavigate()
-
-    // const handleLogin = () => {
-    //     auth.login(user)
-    //     debugger;
-    //     navigate('/')
-    // }
 
     const handleLogin = async (e) => {
       e.preventDefault();
