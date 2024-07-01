@@ -1,18 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Navbar, Button } from 'react-bootstrap';
+import Sidebar from './Sidebar'
+import '../styles/Sidebar.css';
 
 const Header = () => {
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  const toggleSidebar = () => {
+    console.log(showSidebar)
+    setShowSidebar(!showSidebar);
+  };
+
   return (
-    <header>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/signup">Sign Up</Link></li>
-          {/* Add more navigation links */}
-        </ul>
-      </nav>
-    </header>
+    <>
+      <Navbar bg="light" expand="lg">
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Button variant="outline-primary" className="toggle-btn" onClick={toggleSidebar}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </Button>
+        </Navbar.Collapse>
+      </Navbar>
+      <Sidebar show={showSidebar} onHide={() => setShowSidebar(false)} />
+    </>
   );
 };
 
