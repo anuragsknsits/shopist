@@ -1,30 +1,41 @@
-import React, { useState } from 'react';
-import { Navbar, Button } from 'react-bootstrap';
-import Sidebar from './Sidebar'
-import '../styles/Sidebar.css';
+import React from 'react';
+import { Container, NavDropdown, Nav, Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import '../styles/Header.css';
 
 const Header = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
-
-  const toggleSidebar = () => {
-    console.log(showSidebar)
-    setShowSidebar(!showSidebar);
-  };
 
   return (
-    <>
-      <Navbar bg="light" expand="lg">
+    <Navbar expand="lg" className='header'>
+      <Container>
+        <Navbar.Brand as={Link} to="/">VKAD Associates</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Button variant="outline-primary" className="toggle-btn" onClick={toggleSidebar}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </Button>
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/aboutus">About Us</Nav.Link>
+            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/">Action</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={Link} to="/">
+                Separated link
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/">
+              Notification</Nav.Link>
+            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/signup" >Register</Nav.Link>
+          </Nav>
         </Navbar.Collapse>
-      </Navbar>
-      <Sidebar show={showSidebar} onHide={() => setShowSidebar(false)} />
-    </>
+      </Container>
+    </Navbar>
+
   );
 };
 

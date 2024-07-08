@@ -1,0 +1,52 @@
+/* styles/styles.css */
+
+/* Global styles */
+
+
+/* Header styles */
+.navbar {
+  margin-bottom: 20px;
+}
+
+/* Sidebar styles */
+.header {
+
+  background-color: #b5c8da8a;
+  border-right: 1px solid #e1e4e8;
+}
+
+.header-sticky {
+  position: sticky;
+  top: 20px;
+  /* Adjust as needed */
+}
+
+/* Main content styles */
+.main-content {
+  margin-top: 20px;
+}
+
+.div-padding {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+}
+
+.nav-link-header {
+  left: 450px;
+  color: #495057;
+  /* Link text color */
+  position: relative;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .header {
+    width: 1350px;
+  }
+
+  .main-content {
+    margin-left: 250px;
+  }
+}
