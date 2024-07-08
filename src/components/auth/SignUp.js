@@ -1,47 +1,69 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Button, Col } from 'react-bootstrap';
+import {registerRequest} from '../../redux/actions/signupAction';
 
-export const SignUp = () => {
- 
-  const [formData, setFormData] = useState({
-    username: '',
-    role: '',
-    password: '',
-  });
+const SignUp = () => {
+  const [user, setUser] = useState({ username: '', password: '', role: '' });
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector(state => state.user);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    
-    setFormData((prevState) => ({
-     ...prevState,
-     [name]: value,
-   }));
-   
+  const handleChange = ({ target: { name, value } }) => {
+    setUser(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      debugger;
-      const response = await axios.post('http://localhost:8080/signup', formData);
-      console.log('User signed up:', response.data);
-      // Handle success, show a success message, redirect, etc.
-    } catch (error) {
-      debugger;
-      console.error('Error signing up:', error);
-      // Handle error, show error message to the user
-    }
+    dispatch(registerRequest(user));
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-        <input type="text" name="role" placeholder="role" value={formData.role} onChange={handleChange} required />
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <Form onSubmit={handleSubmit} className="p-4 border rounded" style={{ maxWidth: '400px', width: '100%' }}>
+        <Form.Group as={Col} className="mb-3" controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            value={user.username}
+            onChange={handleChange}
+            placeholder="Enter username"
+            required
+          />
+        </Form.Group>
+
+        <Form.Group as={Col} className="mb-3" controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+            placeholder="Enter password"
+            required
+          />
+        </Form.Group>
+
+        <Form.Group as={Col} className="mb-3" controlId="formRole">
+          <Form.Label>Role</Form.Label>
+          <Form.Control
+            type="text"
+            name="role"
+            value={user.role}
+            onChange={handleChange}
+            placeholder="Enter role"
+            required
+          />
+        </Form.Group>
+
+        {error && <div className="text-danger">{error}</div>}
+
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? 'Registering...' : 'Sign Up'}
+        </Button>
+      </Form>
     </div>
   );
-}
+};
+
+export default SignUp;
