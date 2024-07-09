@@ -1,88 +1,54 @@
 import React, { useState } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
-import axios from 'axios';
-import '../../styles/Login.css'
-
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Button, Col } from 'react-bootstrap';
+import { loginRequest } from '../../redux/actions/loginAction';
 
 const Login = () => {
-  const [user, setUser] = useState({ username: '', password: '' });
-  const [error, setError] = useState('');
-  //const history = useHistory();
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector(state => state.auth);
 
   const handleChange = ({ target: { name, value } }) => {
-    setUser((prevState) => ({ ...prevState, [name]: value }));
+    setCredentials(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleLogin = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!user.username || !user.password) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    try {
-      const response = await axios.post('http://localhost:8080/authenticate', user);
-      console.log('User logged in:', response.data);
-      // Save token to localStorage or context
-      localStorage.setItem('authToken', response.data.token);
-      // Redirect to a different page
-      // history.push('/dashboard');
-    } catch (error) {
-      console.error('Error logging in:', error);
-      setError('Invalid username or password');
-    }
+    dispatch(loginRequest(credentials));
   };
 
   return (
-    <div className="d-flex justify-content-center">
-      <Form className="login-form" onSubmit={handleLogin}>
-        <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-
-          <Form.Label column sm="2"> Email</Form.Label>
-
-          <Col sm="10">
-            <Form.Control
-              type="text"
-              value={user.username}
-              placeholder="Email"
-              name="username"
-              onChange={handleChange}
-              size="lg"
-            />
-          </Col>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <Form onSubmit={handleSubmit} className="p-4 border rounded" style={{ maxWidth: '400px', width: '100%' }}>
+        <Form.Group as={Col} className="mb-3" controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            value={credentials.username}
+            onChange={handleChange}
+            placeholder="Enter username"
+            required
+          />
         </Form.Group>
 
-        <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-
-          <Form.Label column sm="2">
-            Password
-          </Form.Label>
-          <Col sm="10">
-            <Form.Control
-              type="password"
-              value={user.password}
-              placeholder="Password"
-              name="password"
-              onChange={handleChange}
-              size="lg"
-            />
-          </Col>
+        <Form.Group as={Col} className="mb-3" controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+            placeholder="Enter password"
+            required
+          />
         </Form.Group>
 
-        {error && (
-          <Row className="mb-3">
-            <Col sm={{ span: 10, offset: 2 }}>
-              <div className="text-danger">{error}</div>
-            </Col>
-          </Row>
-        )}
+        {error && <div className="text-danger">{error}</div>}
 
-        <Row className="mb-3">
-          <Col sm={{ span: 10, offset: 2 }}>
-            <button type="submit" className="btn btn-primary">Login</button>
-          </Col>
-        </Row>
-
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </Button>
       </Form>
     </div>
   );
