@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CHECK_AUTH_STATE } from "../constant";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, CHECK_AUTH_STATE } from "../constant";
 
 const initialState = {
   isAuthenticated: false,
@@ -29,7 +29,7 @@ export const authReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
-    case LOGOUT:
+    case LOGOUT_REQUEST:
       return {
         ...state,
         isAuthenticated: false,

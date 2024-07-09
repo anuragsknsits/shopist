@@ -1,13 +1,13 @@
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/actions/loginAction';
+import { logoutRequest } from '../redux/actions/loginAction';
 
 const AuthLinks = ({ isAuthenticated }) => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(logoutRequest());
     };
 
     return (
@@ -23,8 +23,6 @@ const AuthLinks = ({ isAuthenticated }) => {
             ) : (
                 <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
             )}
-
-
         </Nav>
     );
 };

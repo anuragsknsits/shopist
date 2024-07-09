@@ -1,13 +1,16 @@
 import { put, takeEvery, takeLatest, call } from "redux-saga/effects";
-import { LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE } from "../constant";
+import { LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE, LOGOUT_REQUEST } from "../constant";
 import { registerSuccess, registerFailure } from '../../redux/actions/signupAction';
-import { loginSuccess, loginFailure, logout } from '../../redux/actions/loginAction';
+import {
+  loginSuccess, loginFailure, logoutSuccess, logoutFailure,
+} from '../../redux/actions/loginAction';
 import axios from "axios";
 
 function* apiCallSaga() {
   yield takeEvery(LOGIN_REQUEST, loginUserSaga);
   yield takeLatest(REGISTER_REQUEST, registerUserSaga);
   yield takeLatest(CHECK_AUTH_STATE, checkAuthStateSaga);
+  yield takeEvery(LOGOUT_REQUEST, logoutUserSaga);
 }
 
 function* loginUserSaga(action) {
@@ -23,7 +26,7 @@ function* loginUserSaga(action) {
 
 function* registerUserSaga(action) {
   try {
-    const response = yield call(axios.post, 'http://localhost:8080/auth/signup', action.payload);
+    const response = yield call(axios.post, 'http://localhost:8080/auth/register', action.payload);
     yield put(registerSuccess(response.data));
   } catch (error) {
     yield put(registerFailure(error.message));
@@ -32,9 +35,7 @@ function* registerUserSaga(action) {
 
 function* checkAuthStateSaga() {
   const token = localStorage.getItem('authToken');
-  console.log(token);
   if (token) {
-    console.log("token");
     try {
       // const response = yield call(axios.get, 'http://localhost:8080/auth/verifyToken', {
       //   headers: {
@@ -43,10 +44,27 @@ function* checkAuthStateSaga() {
       // });
       yield put(loginSuccess(token));
     } catch (error) {
-      console.log(localStorage.getItem('authToken'))
       localStorage.removeItem('authToken');
-      yield put(logout());
+      yield put(logoutSuccess());
     }
+  } else {
+    yield put(logoutSuccess());
+  }
+}
+
+function* logoutUserSaga() {
+  try {
+    const token = localStorage.getItem('authToken');
+    console.log('logout', token);
+    // yield call(axios.post, 'http://localhost:8080/auth/logout', {}, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // });
+    localStorage.removeItem('authToken');
+    yield put(logoutSuccess());
+  } catch (error) {
+    yield put(logoutFailure(error.message));
   }
 }
 

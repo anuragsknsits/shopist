@@ -1,4 +1,7 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, CHECK_AUTH_STATE } from "../constant";
+import {
+    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
+    LOGOUT_FAILURE, LOGOUT_SUCCESS, LOGOUT_REQUEST, CHECK_AUTH_STATE
+} from "../constant";
 
 export const loginRequest = (credentials) => ({
     type: LOGIN_REQUEST,
@@ -17,8 +20,18 @@ export const loginFailure = (error) => ({
 
 export const checkAuthState = () => ({
     type: CHECK_AUTH_STATE,
-  });
-
-export const logout = () => ({
-    type: LOGOUT,
 });
+
+export const logoutRequest = () => ({
+    type: LOGOUT_REQUEST,
+});
+
+export const logoutSuccess = () => ({
+    type: LOGOUT_SUCCESS,
+});
+
+export const logoutFailure = (error) => ({
+    type: LOGOUT_FAILURE,
+    payload: error,
+});
+
