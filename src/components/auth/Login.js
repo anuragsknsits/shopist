@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState,  useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Col } from 'react-bootstrap';
+import { Form, Button, Col, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import { loginRequest } from '../../redux/actions/loginAction';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const dispatch = useDispatch();
-  const { loading, error } = useSelector(state => state.auth);
+  const navigate = useNavigate(); // Get the navigate function from React Router
+  const { loading, error, isAuthenticated } = useSelector(state => state.auth);
 
   const handleChange = ({ target: { name, value } }) => {
     setCredentials(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginRequest(credentials));
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    await dispatch(loginRequest(credentials));
   };
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
+  
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Form onSubmit={handleSubmit} className="p-4 border rounded" style={{ maxWidth: '400px', width: '100%' }}>
@@ -47,7 +55,11 @@ const Login = () => {
         {error && <div className="text-danger">{error}</div>}
 
         <Button variant="primary" type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? (
+            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+          ) : (
+            'Login'
+          )}
         </Button>
       </Form>
     </div>
