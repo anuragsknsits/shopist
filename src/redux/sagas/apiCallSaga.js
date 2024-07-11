@@ -1,10 +1,8 @@
 import { put, takeEvery, takeLatest, call } from "redux-saga/effects";
 import { LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE, LOGOUT_REQUEST } from "../constant";
 import { registerSuccess, registerFailure } from '../../redux/actions/signupAction';
-import {
-  loginSuccess, loginFailure, logoutSuccess, logoutFailure,
-} from '../../redux/actions/loginAction';
-import axios from "axios";
+import { loginSuccess, loginFailure, logoutSuccess, logoutFailure } from '../../redux/actions/loginAction';
+import axios from "../../api/axiosConfig";  // Use the new axios config
 
 function* apiCallSaga() {
   yield takeEvery(LOGIN_REQUEST, loginUserSaga);
@@ -15,9 +13,10 @@ function* apiCallSaga() {
 
 function* loginUserSaga(action) {
   try {
-    const response = yield call(axios.post, 'http://localhost:8080/auth/login', action.payload);
+    console.log(action)
+    const response = yield call(axios.post, '/auth/login', action.payload);
     yield put(loginSuccess(response.data));
-    localStorage.setItem('authToken', response.data); // Save token to localStorage
+    localStorage.setItem('authToken', response.data.token); // Save token to localStorage
     console.log(response.data);
   } catch (error) {
     yield put(loginFailure(error.message));
@@ -26,7 +25,7 @@ function* loginUserSaga(action) {
 
 function* registerUserSaga(action) {
   try {
-    const response = yield call(axios.post, 'http://localhost:8080/auth/register', action.payload);
+    const response = yield call(axios.post, '/auth/register', action.payload);
     yield put(registerSuccess(response.data));
   } catch (error) {
     yield put(registerFailure(error.message));
@@ -37,7 +36,7 @@ function* checkAuthStateSaga() {
   const token = localStorage.getItem('authToken');
   if (token) {
     try {
-      // const response = yield call(axios.get, 'http://localhost:8080/auth/verifyToken', {
+       // const response = yield call(axios.get, 'http://localhost:8080/auth/verifyToken', {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
       //   },
@@ -56,7 +55,7 @@ function* logoutUserSaga() {
   try {
     const token = localStorage.getItem('authToken');
     console.log('logout', token);
-    // yield call(axios.post, 'http://localhost:8080/auth/logout', {}, {
+    // yield call(axios.post, '/auth/logout', {}, {
     //   headers: {
     //     Authorization: `Bearer ${token}`,
     //   },
