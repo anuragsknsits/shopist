@@ -8,12 +8,12 @@ export const fetchProfileRequest = () => ({
   type: FETCH_PROFILE_REQUEST,
 });
 
-export const fetchProfileSuccess = profile => ({
+export const fetchProfileSuccess = (profile) => ({
   type: FETCH_PROFILE_SUCCESS,
   payload: profile,
 });
 
-export const fetchProfileFailure = error => ({
+export const fetchProfileFailure = (error) => ({
   type: FETCH_PROFILE_FAILURE,
   payload: error,
 });

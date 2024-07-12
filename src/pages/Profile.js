@@ -9,7 +9,8 @@ export const Profile = () => {
   const loading = useSelector(state => state.profile.loading);
   const error = useSelector(state => state.profile.error);
 
-  const handleFetchProfile = () => {
+  const handleFetchProfile = async (e) => {
+    e.preventDefault(); // Prevent default form submission
     dispatch(fetchProfileRequest());
   };
 
@@ -22,8 +23,8 @@ export const Profile = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {profile && (
         <div>
-          <h2>{profile.name}</h2>
-          <p>{profile.email}</p>
+          <h2>{profile.productId}</h2>
+          <p>{profile.categoryId}</p>
           {/* Render other profile details */}
         </div>
       )}

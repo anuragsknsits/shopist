@@ -1,14 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import axios from 'axios';
-import {
-  FETCH_PROFILE_REQUEST,
-  fetchProfileSuccess,
-  fetchProfileFailure,
-} from '../actions';
+import {fetchProfileSuccess, fetchProfileFailure} from '../actions/profileActions';
+import {FETCH_PROFILE_REQUEST} from "../constant";
+import axios from "../../api/axiosConfig"; 
 
 function* fetchProfile() {
   try {
-    const response = yield call(axios.get, 'http://localhost:8080/cart/allCart');
+    console.log("fetchProfile");
+    const response = yield call(axios.get, '/cart/allCart');
     yield put(fetchProfileSuccess(response.data));
     console.log(response.data);
   } catch (error) {

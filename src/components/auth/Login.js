@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-    await dispatch(loginRequest(credentials));
+    dispatch(loginRequest(credentials));
   };
 
   useEffect(() => {
