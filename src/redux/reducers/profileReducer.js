@@ -13,7 +13,6 @@ const initialState = {
 export const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case FETCH_PROFILE_REQUEST:
-            console.log(state)
             return {
                 ...state,
                 loading: true,

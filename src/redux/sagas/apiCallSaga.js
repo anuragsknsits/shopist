@@ -36,7 +36,7 @@ function* checkAuthStateSaga() {
   const token = localStorage.getItem('authToken');
   if (token) {
     try {
-       // const response = yield call(axios.get, 'http://localhost:8080/auth/verifyToken', {
+      // const response = yield call(axios.get, 'http://localhost:8080/auth/verifyToken', {
       //   headers: {
       //     Authorization: `Bearer ${token}`,
       //   },
@@ -55,11 +55,7 @@ function* logoutUserSaga() {
   try {
     const token = localStorage.getItem('authToken');
     console.log('logout', token);
-    // yield call(axios.post, '/auth/logout', {}, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
+    yield call(axios.post, '/auth/logout');
     localStorage.removeItem('authToken');
     yield put(logoutSuccess());
   } catch (error) {
