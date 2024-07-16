@@ -22,8 +22,9 @@ export const checkAuthState = () => ({
     type: CHECK_AUTH_STATE,
 });
 
-export const logoutRequest = () => ({
+export const logoutRequest = (navigate) => ({
     type: LOGOUT_REQUEST,
+    payload: { navigate },
 });
 
 export const logoutSuccess = () => ({

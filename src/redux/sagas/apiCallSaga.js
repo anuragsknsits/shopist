@@ -16,8 +16,6 @@ function* loginUserSaga(action) {
     console.log(action)
     const response = yield call(axios.post, '/auth/login', action.payload);
     yield put(loginSuccess(response.data));
-    localStorage.setItem('authToken', response.data.token); // Save token to localStorage
-    console.log(response.data);
   } catch (error) {
     yield put(loginFailure(error.message));
   }
@@ -51,13 +49,13 @@ function* checkAuthStateSaga() {
   }
 }
 
-function* logoutUserSaga() {
+function* logoutUserSaga(action) {
+  const { navigate } = action.payload;
   try {
-    const token = localStorage.getItem('authToken');
-    console.log('logout', token);
     yield call(axios.post, '/auth/logout');
-    localStorage.removeItem('authToken');
     yield put(logoutSuccess());
+    navigate('/login');
+    window.location.reload();
   } catch (error) {
     yield put(logoutFailure(error.message));
   }

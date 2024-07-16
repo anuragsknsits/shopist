@@ -1,13 +1,14 @@
 import { Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutRequest } from '../redux/actions/loginAction';
 
 const AuthLinks = ({ isAuthenticated }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        dispatch(logoutRequest());
+        dispatch(logoutRequest(navigate));
     };
 
     return (

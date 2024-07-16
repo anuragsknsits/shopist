@@ -49,8 +49,7 @@ instance.interceptors.request.use(
     if (csrfToken) {
       config.headers['X-XSRF-TOKEN'] = csrfToken;
     }
-    
-    const token = localStorage.getItem('authToken'); // Assume token is stored in localStorage
+    let token = document.cookie.split('; ').find(row => row.startsWith('jwt='));
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
