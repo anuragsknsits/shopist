@@ -18,9 +18,10 @@ const SignUp = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <Form onSubmit={handleSubmit} className="p-4 border rounded" style={{ maxWidth: '400px', width: '100%' }}>
-        <Form.Group as={Col} className="mb-3" controlId="formUsername">
+    <div className="login-form">
+      <h1>Sign Up</h1>
+      <Form onSubmit={handleSubmit} className="p-4 border rounded" >
+        <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
@@ -32,7 +33,7 @@ const SignUp = () => {
           />
         </Form.Group>
 
-        <Form.Group as={Col} className="mb-3" controlId="formPassword">
+        <Form.Group controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -44,7 +45,7 @@ const SignUp = () => {
           />
         </Form.Group>
 
-        <Form.Group as={Col} className="mb-3" controlId="formRole">
+        <Form.Group className="mb-3" controlId="formRole">
           <Form.Label>Role</Form.Label>
           <Form.Control
             type="text"

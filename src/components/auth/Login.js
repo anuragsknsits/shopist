@@ -1,8 +1,9 @@
 import React, { useState,  useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Col, Spinner } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import { loginRequest } from '../../redux/actions/loginAction';
+import  '../../styles/Login.css';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -26,9 +27,10 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
   
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <Form onSubmit={handleSubmit} className="p-4 border rounded" style={{ maxWidth: '400px', width: '100%' }}>
-        <Form.Group as={Col} className="mb-3" controlId="formUsername">
+    <div className="login-form">
+      <h1>Log In</h1>
+      <Form onSubmit={handleSubmit} className="p-4 border rounded">
+        <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
@@ -40,7 +42,7 @@ const Login = () => {
           />
         </Form.Group>
 
-        <Form.Group as={Col} className="mb-3" controlId="formPassword">
+        <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
