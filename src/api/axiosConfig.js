@@ -10,8 +10,8 @@ const instance = axios.create({
 let csrfToken = null;
 
 const csrfInstance = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials: true,
+  baseURL: 'http://localhost:8080',
+  withCredentials: true,
 });
 
 // Function to fetch CSRF token
@@ -30,11 +30,26 @@ fetchCsrfToken();
 
 // Add a request interceptor to include CSRF token and Authorization header
 instance.interceptors.request.use(
-  config => {
+  async config => {
+
+    // let csrfToken = document.cookie.split('; ').find(row => row.startsWith('XSRF-TOKEN='));
+    // console.log("as", csrfToken)
+    // csrfToken = csrfToken ? csrfToken.split('=')[1] : null;
+
+    // if (!csrfToken) {
+    //   try {
+    //     csrfToken = await fetchCsrfToken();
+    //     document.cookie = `XSRF-TOKEN=${csrfToken}; path=/`;
+    //     console.log("csrfToken", document.cookie)
+    //   } catch (error) {
+    //     console.error('Error fetching new CSRF token:', error);
+    //   }
+    // }
+
     if (csrfToken) {
       config.headers['X-XSRF-TOKEN'] = csrfToken;
     }
-
+    
     const token = localStorage.getItem('authToken'); // Assume token is stored in localStorage
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;

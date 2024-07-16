@@ -5,7 +5,6 @@ import axios from "../../api/axiosConfig";
 
 function* fetchProfile() {
   try {
-    console.log("fetchProfile");
     const response = yield call(axios.get, '/cart/allCart');
     yield put(fetchProfileSuccess(response.data));
     console.log(response.data);

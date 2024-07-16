@@ -23,8 +23,8 @@ export const Profile = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {profile && (
         <div>
-          <h2>{profile.productId}</h2>
-          <p>{profile.categoryId}</p>
+          <h2>{profile[0].productId}</h2>
+          <p>{profile[0].categoryId}</p>
           {/* Render other profile details */}
         </div>
       )}
