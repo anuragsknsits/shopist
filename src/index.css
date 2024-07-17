@@ -13,7 +13,7 @@ code {
 }
 
 nav {
-  background-color: aliceblue;
+  background-color: white;
   padding: 16px 32px;
 }
 
@@ -21,7 +21,12 @@ nav a {
   margin-right: 16px;
 }
 
-/* nav a.active {
-  text-decoration: none;
-  font-weight: bold;
-} */
+@media screen and (max-width: 600px) {
+  main {
+    flex-direction: column;
+  }
+  .content, .sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

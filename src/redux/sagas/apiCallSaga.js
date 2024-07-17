@@ -3,6 +3,7 @@ import { LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE, LOGOUT_REQUEST } fro
 import { registerSuccess, registerFailure } from '../../redux/actions/signupAction';
 import { loginSuccess, loginFailure, logoutSuccess, logoutFailure } from '../../redux/actions/loginAction';
 import axios from "../../api/axiosConfig";  // Use the new axios config
+import Cookies from 'js-cookie';
 
 function* apiCallSaga() {
   yield takeEvery(LOGIN_REQUEST, loginUserSaga);
@@ -13,7 +14,6 @@ function* apiCallSaga() {
 
 function* loginUserSaga(action) {
   try {
-    console.log(action)
     const response = yield call(axios.post, '/auth/login', action.payload);
     yield put(loginSuccess(response.data));
   } catch (error) {
@@ -31,15 +31,11 @@ function* registerUserSaga(action) {
 }
 
 function* checkAuthStateSaga() {
-  const token = localStorage.getItem('authToken');
+  const token = Cookies.get('jwt');
   if (token) {
     try {
-      // const response = yield call(axios.get, 'http://localhost:8080/auth/verifyToken', {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      yield put(loginSuccess(token));
+      const response = yield call(axios.get, '/auth/verifyToken');
+      yield put(loginSuccess(response.data));
     } catch (error) {
       localStorage.removeItem('authToken');
       yield put(logoutSuccess());
@@ -50,10 +46,12 @@ function* checkAuthStateSaga() {
 }
 
 function* logoutUserSaga(action) {
+  debugger;
   const { navigate } = action.payload;
   try {
     yield call(axios.post, '/auth/logout');
     yield put(logoutSuccess());
+    Cookies.remove('jwt', { path: '/' });
     navigate('/login');
     window.location.reload();
   } catch (error) {

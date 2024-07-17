@@ -19,7 +19,7 @@ const SignUp = () => {
 
   return (
     <div className="login-form">
-      <h1>Sign Up</h1>
+      <h1 className='h1'>Sign Up</h1>
       <Form onSubmit={handleSubmit} className="p-4 border rounded" >
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
