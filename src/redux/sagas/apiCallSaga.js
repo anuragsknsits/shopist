@@ -15,6 +15,7 @@ function* apiCallSaga() {
 function* loginUserSaga(action) {
   try {
     const response = yield call(axios.post, '/auth/login', action.payload);
+    Cookies.set('authToken', response.data, { expires: 1, secure: true, sameSite: 'Strict' });
     yield put(loginSuccess(response.data));
   } catch (error) {
     yield put(loginFailure(error.message));
@@ -31,13 +32,13 @@ function* registerUserSaga(action) {
 }
 
 function* checkAuthStateSaga() {
-  const token = Cookies.get('jwt');
+  const token = Cookies.get('authToken');
   if (token) {
     try {
       const response = yield call(axios.get, '/auth/verifyToken');
       yield put(loginSuccess(response.data));
     } catch (error) {
-      localStorage.removeItem('authToken');
+      Cookies.remove('authToken', { path: '/' });
       yield put(logoutSuccess());
     }
   } else {
@@ -46,12 +47,11 @@ function* checkAuthStateSaga() {
 }
 
 function* logoutUserSaga(action) {
-  debugger;
   const { navigate } = action.payload;
   try {
     yield call(axios.post, '/auth/logout');
     yield put(logoutSuccess());
-    Cookies.remove('jwt', { path: '/' });
+    Cookies.remove('authToken', { path: '/' });
     navigate('/login');
     window.location.reload();
   } catch (error) {
