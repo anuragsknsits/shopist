@@ -14,11 +14,11 @@ store.dispatch(checkAuthState());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <CookiesProvider>
-    <Provider store={store}>
+  <Provider store={store}>
+    <CookiesProvider>
       <App />
-    </Provider>
-  </CookiesProvider>
+    </CookiesProvider>
+  </Provider>
 );
 
 reportWebVitals();

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutRequest } from '../redux/actions/loginAction';
 
-const AuthLinks = ({ isAuthenticated, onLogout }) => {
+const AuthLinks = ({username, isAuthenticated, onLogout }) => {
     const dispatch = useDispatch();
 
     const handleLogout = () => {
@@ -21,9 +21,8 @@ const AuthLinks = ({ isAuthenticated, onLogout }) => {
                 </>
             ) : (
                 <>
-                    <Nav.Link as={Link} to="/">
-                        Notification
-                    </Nav.Link>
+                    <Nav.Link as={Link} to="/">Notification</Nav.Link>
+                    <Nav.Link>Hi {username} </Nav.Link>
                     <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 </>
 

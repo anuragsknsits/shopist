@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 import NavigationMenu from './NavigationMenu';
 import AuthLinks from './AuthLinks';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../components/selectors/authSelectors';
+import { selectIsAuthenticated, userName } from '../components/selectors/authSelectors';
 import '../styles/Header.css';
 
 const Header = ({ onLogout }) => {
   // Get the authentication status from the Redux store
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const username = useSelector(userName);
 
   return (
     <div>
@@ -22,7 +23,7 @@ const Header = ({ onLogout }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             {/* Pass authentication status and onLogout function to child components */}
             <NavigationMenu isAuthenticated={isAuthenticated} />
-            <AuthLinks isAuthenticated={isAuthenticated} onLogout={onLogout} />
+            <AuthLinks username = {username} isAuthenticated={isAuthenticated} onLogout={onLogout} />
           </Navbar.Collapse>
         </Container>
       </Navbar>
