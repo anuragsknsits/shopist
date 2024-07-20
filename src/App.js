@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
@@ -10,15 +10,11 @@ import Login from './components/auth/Login';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuthState, logoutRequest } from './redux/actions/loginAction';
+import { logoutRequest } from './redux/actions/loginAction';
 
 function App() {
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector(state => state.auth);
-
-  useEffect(() => {
-    dispatch(checkAuthState());
-  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logoutRequest());
