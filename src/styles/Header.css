@@ -29,7 +29,6 @@
 
 /* Sidebar styles */
 .header {
-
   background-color: #b5c8da8a;
   border-right: 1px solid #e1e4e8;
 }
@@ -54,7 +53,7 @@
 
 .nav-link-header {
   left: 450px;
-  color: #495057;
+  color: rgb(17 108 137);
   /* Link text color */
   position: relative;
 }

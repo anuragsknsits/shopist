@@ -5,7 +5,7 @@ import NavigationMenu from './NavigationMenu';
 import AuthLinks from './AuthLinks';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated, userName } from '../components/selectors/authSelectors';
-import '../styles/Header.css';
+
 
 const Header = ({ onLogout }) => {
   // Get the authentication status from the Redux store
@@ -17,9 +17,7 @@ const Header = ({ onLogout }) => {
       <Navbar expand="lg">
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" aria-label="Toogle Me" />
-          <Navbar.Brand as={Link} to="/">
-            VKAD Associates
-          </Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">VKAD Associates</Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav">
             {/* Pass authentication status and onLogout function to child components */}
             <NavigationMenu isAuthenticated={isAuthenticated} />
