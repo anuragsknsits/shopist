@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import {registerRequest} from '../../redux/actions/signupAction';
+import { registerRequest } from '../../redux/actions/signupAction';
 
 const SignUp = () => {
   const [user, setUser] = useState({ username: '', password: '', role: '' });
@@ -20,7 +20,7 @@ const SignUp = () => {
   return (
     <div className="login-form">
       <h1 className='h1'>Sign Up</h1>
-      <Form onSubmit={handleSubmit} className="p-4 border rounded" >
+      <Form onSubmit={handleSubmit} className="p-4 border rounded">
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -30,6 +30,7 @@ const SignUp = () => {
             onChange={handleChange}
             placeholder="Enter username"
             required
+            autoComplete="username"
           />
         </Form.Group>
 
@@ -42,6 +43,7 @@ const SignUp = () => {
             onChange={handleChange}
             placeholder="Enter password"
             required
+            autoComplete="new-password"
           />
         </Form.Group>
 
@@ -54,6 +56,7 @@ const SignUp = () => {
             onChange={handleChange}
             placeholder="Enter role"
             required
+            autoComplete="organization-title"
           />
         </Form.Group>
 

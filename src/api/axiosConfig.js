@@ -20,7 +20,6 @@ const fetchCsrfToken = async () => {
   try {
     const response = await csrfInstance.get('/csrf-token');
     csrfToken = response.data.token;
-    console.log('Fetched CSRF Token :', csrfToken);
   } catch (error) {
     console.error('Error fetching CSRF token:', error);
   }

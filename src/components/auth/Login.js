@@ -1,9 +1,9 @@
-import React, { useState,  useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from React Router
 import { loginRequest } from '../../redux/actions/loginAction';
-import  '../../styles/Login.css';
+import '../../styles/Login.css';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -39,6 +39,7 @@ const Login = () => {
             onChange={handleChange}
             placeholder="Enter username"
             required
+            autoComplete="username"
           />
         </Form.Group>
 
@@ -51,6 +52,7 @@ const Login = () => {
             onChange={handleChange}
             placeholder="Enter password"
             required
+            autoComplete="current-password"
           />
         </Form.Group>
 

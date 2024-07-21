@@ -14,7 +14,6 @@ function* apiCallSaga() {
 
 function* loginUserSaga(action) {
   try {
-    console.log("loginUserSaga")
     const response = yield call(axios.post, '/auth/login', action.payload);
     Cookies.set('authToken', response.data.token, { expires: 1, secure: true, sameSite: 'Strict'});
     yield put(loginSuccess(response.data.username));
