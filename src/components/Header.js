@@ -17,7 +17,7 @@ const Header = ({ onLogout }) => {
       <Navbar expand="lg">
         <Container>
           <Navbar.Toggle aria-controls="basic-navbar-nav" aria-label="Toogle Me" />
-          <Navbar.Brand as={Link}>
+          <Navbar.Brand as={Link} to = '/'>
             <img
               src={logo}
               width="30"
