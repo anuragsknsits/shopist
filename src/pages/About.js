@@ -1,11 +1,9 @@
 import React from 'react';
 import { Accordion } from 'react-bootstrap';
-import '../styles/Layout.css';
 
 const AboutUs = () => {
   return (
-
-    <Accordion className='aboutus' defaultActiveKey={['0']} alwaysOpen>
+    <Accordion defaultActiveKey={['0']} alwaysOpen>
       <Accordion.Item eventKey="0" id="0">
         <Accordion.Header>ACA Vinit Kumar & Associates</Accordion.Header>
         <Accordion.Body>
