@@ -1,0 +1,18 @@
+/* src/styles/Sidebar.css */
+.sidebar .offcanvas-body {
+    padding: 0;
+}
+
+.sidebar .nav-link {
+    padding: 1rem;
+    color: #000;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+.sidebar .offcanvas-header {
+    border-bottom: 1px solid #dee2e6;
+}
