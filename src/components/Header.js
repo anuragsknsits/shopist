@@ -1,13 +1,14 @@
 // src/components/Header.js
-import { Container, Navbar } from 'react-bootstrap';
+import { Container, Navbar, Nav, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NavigationMenu from './NavigationMenu';
 import AuthLinks from './AuthLinks';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated, userName } from '../components/selectors/authSelectors';
 import logo from '../img/VKADLogo.jpg';
+import '../styles/Layout.css';
 
-const Header = ({ onLogout }) => {
+const Header = ({ onLogout, children }) => {
   // Get the authentication status from the Redux store
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const username = useSelector(userName);
@@ -16,8 +17,7 @@ const Header = ({ onLogout }) => {
     <div>
       <Navbar expand="lg">
         <Container>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" aria-label="Toogle Me" />
-          <Navbar.Brand as={Link} to = '/'>
+          <Navbar.Brand as={Link} to='/'>
             <img
               src={logo}
               width="30"
@@ -34,6 +34,20 @@ const Header = ({ onLogout }) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Container fluid>
+        <Row>
+          <Col xs={2} className="sidebar bg-light">
+            <Nav className="flex-column">
+              <Nav.Link className="nav-link-custom" as={Link} to="/aboutus">AboutUs</Nav.Link>
+              <Nav.Link className="nav-link-custom" as={Link} to="/dashboard">Dashboard</Nav.Link>
+              <Nav.Link className="nav-link-custom" as={Link} to="/profile">Profile</Nav.Link>
+            </Nav>
+          </Col>
+          <Col xs={10} className="content">
+            {children}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
