@@ -1,6 +1,21 @@
+.ad-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
+
+
+.ad-image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
 .login-form {
     border: 1px solid rgb(179, 197, 21);
-    width: 400px;
+    width: 100%;
     height: 500px;
     color: #216cb3be;
     border-radius: 20px;
@@ -10,10 +25,7 @@
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    margin-left: 60%;
-}
-
-form {
+}form {
     display: block;
     box-sizing: border-box;
     padding: 40px;

@@ -26,7 +26,7 @@ function App() {
     <Router>
       <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <div className="app-container">
-        <Sidebar />
+        
         <div className="content">
           <Routes>
             <Route path="/" element={<Home />} exact />

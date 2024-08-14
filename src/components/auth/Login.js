@@ -4,6 +4,7 @@ import { Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { loginRequest } from '../../redux/actions/loginAction';
 import '../../styles/Login.css';
+import logo from '../../img/VKADLogo.jpg';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -29,6 +30,11 @@ const Login = () => {
   return (
     <Container className="login-container">
       <Row className="justify-content-center">
+        <Col xs={12} md={6} lg={4} className="d-none d-md-block">
+          <div className="ad-container">
+            <img src={logo} alt="VKAD Associate Advertisement" className="ad-image" />
+          </div>
+        </Col>
         <Col xs={12} md={6} lg={4}>
           <div className="login-form">
             <h1 className="h1 text-center">Log In</h1>
