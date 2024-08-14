@@ -1,5 +1,6 @@
 /* src/App.css */
 body, html, #root {
+  background-color: #f5e8e808 !important;
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
@@ -8,6 +9,7 @@ body, html, #root {
 .app-container {
   display: flex;
   height: 100%;
+  
 }
 
 .header {

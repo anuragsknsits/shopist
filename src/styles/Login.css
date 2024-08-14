@@ -15,7 +15,6 @@
 
 .login-form {
     border: 1px solid rgb(179, 197, 21);
-    width: 100%;
     height: 500px;
     color: #216cb3be;
     border-radius: 20px;
@@ -25,16 +24,17 @@
     overflow: hidden;
     justify-content: center;
     align-items: center;
-}form {
+}
+
+form {
     display: block;
     box-sizing: border-box;
     padding: 40px;
-    width: 100%;
     height: 100%;
     flex-direction: column;
     display: flex;
-    gap: 5px;
-    background-color: #102e5077;
+    gap: 2px;
+    background-color: #50101013;
 }
 
 .h1 {
@@ -50,9 +50,9 @@
     text-decoration: wavy;
     text-decoration-thickness: 2px;
     background-clip: text;
-    background: linear-gradient(to right, #26e4e4 0%, #10d6b5 100%);
-    background: #E1F5FE;
-    background: radial-gradient(circle, #E1F5FE 0%, #39a3c7 100%);
+    background: linear-gradient(to right, #50101013 0%, #50101013 100%);
+    background: #50101013;
+    background: radial-gradient(circle, #50101013 0%, #50101013 100%);
 }
 
 input {
@@ -67,7 +67,7 @@ input {
 }
 
 label {
-    color: rgba(255, 255, 255, 0.8);
+    color:hwb(106 8% 45% / 0.922);
     text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 2px;

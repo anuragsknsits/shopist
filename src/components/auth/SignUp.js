@@ -5,7 +5,7 @@ import { registerRequest } from '../../redux/actions/signupAction';
 import '../../styles/Login.css';
 
 const SignUp = () => {
-  const [user, setUser] = useState({ username: '', password: '', role: '' });
+  const [user, setUser] = useState({ firstName: '', lastName: '', emailId: '', password: '', role: '' });
   const dispatch = useDispatch();
   const { loading, error } = useSelector(state => state.user);
 
@@ -21,20 +21,47 @@ const SignUp = () => {
   return (
     <Container className="login-container">
       <Row className="justify-content-center">
-        <Col xs={12} md={6} lg={4}>
+        <Col xs={12} md={6} lg={8}>
           <div className="login-form">
-            <h1 className='h1'>Sign Up</h1>
+            <h1 className="h1 text-center">Sign Up</h1>
             <Form onSubmit={handleSubmit} className="p-4 border rounded">
-              <Form.Group controlId="formUsername">
-                <Form.Label>Username</Form.Label>
+
+              <Form.Group controlId="formFirstName">
+                <Form.Label>First Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="username"
-                  value={user.username}
+                  name="firstName"
+                  value={user.firstName}
                   onChange={handleChange}
-                  placeholder="Enter username"
+                  placeholder="Enter First Name"
                   required
-                  autoComplete="username"
+                  autoComplete="given-name"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="formLastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastName"
+                  value={user.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter Last Name"
+                  required
+                  autoComplete="family-name"
+                />
+              </Form.Group>
+
+              <Form.Group controlId="formEmailId">
+                <Form.Label>Email ID</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="emailId"
+                  value={user.emailId}
+                  onChange={handleChange}
+                  placeholder="Enter Email ID"
+                  required
+                  autoComplete="email"
                 />
               </Form.Group>
 
@@ -45,7 +72,7 @@ const SignUp = () => {
                   name="password"
                   value={user.password}
                   onChange={handleChange}
-                  placeholder="Enter password"
+                  placeholder="Enter Password"
                   required
                   autoComplete="new-password"
                 />
@@ -58,7 +85,7 @@ const SignUp = () => {
                   name="role"
                   value={user.role}
                   onChange={handleChange}
-                  placeholder="Enter role"
+                  placeholder="Enter Role"
                   required
                   autoComplete="organization-title"
                 />
