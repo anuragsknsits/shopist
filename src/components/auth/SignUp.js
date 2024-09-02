@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
 import { registerRequest } from '../../redux/actions/signupAction';
+import { fetchRolesRequest } from '../../redux/actions/roleActions';
 import '../../styles/Login.css';
 
 const SignUp = () => {
   const [user, setUser] = useState({ firstName: '', lastName: '', emailId: '', password: '', role: '' });
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchRolesRequest());
+  }, [dispatch]);
+
+  const { roles, loading: rolesLoading, error: rolesError } = useSelector(state => state.role);
   const { loading, error } = useSelector(state => state.user);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -80,15 +87,21 @@ const SignUp = () => {
 
               <Form.Group className="mb-3" controlId="formRole">
                 <Form.Label>Role</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select
                   name="role"
                   value={user.role}
                   onChange={handleChange}
-                  placeholder="Enter Role"
                   required
-                  autoComplete="organization-title"
-                />
+                  disabled={rolesLoading} // Disable while roles are loading
+                >
+                  <option value="">Select Role</option>
+                  {roles.map(role => (
+                    <option key={role.id} value={role.name}>
+                      {role.name}
+                    </option>
+                  ))}
+                </Form.Select>
+                {rolesError && <div className="text-danger">{rolesError}</div>}
               </Form.Group>
 
               {error && <div className="text-danger">{error}</div>}
