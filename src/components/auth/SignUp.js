@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import logo from '../../img/VKADLogo.jpg';
 import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
+import { registerRequest } from '../../redux/actions/signupAction';
 
 const SignUp = () => {
   const [user, setUser] = useState({
@@ -9,7 +10,7 @@ const SignUp = () => {
     password: '',
     confirmPassword: ''
   });
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = ({ target: { name, value } }) => {
     setUser(prevState => ({ ...prevState, [name]: value }));
@@ -59,7 +60,8 @@ const SignUp = () => {
 
     // Proceed with signup (e.g., call API or log the user object)
     console.log(user);
-    navigate('/login');
+    dispatch(registerRequest(user));
+    //navigate('/login');
   };
 
   return (

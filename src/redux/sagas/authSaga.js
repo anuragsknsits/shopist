@@ -5,7 +5,7 @@ import { loginSuccess, loginFailure, logoutSuccess, logoutFailure } from '../../
 import axios from "../../api/axiosConfig";  // Use the new axios config
 import Cookies from 'js-cookie';
 
-function* apiCallSaga() {
+function* authSaga() {
   yield takeEvery(LOGIN_REQUEST, loginUserSaga);
   yield takeLatest(REGISTER_REQUEST, registerUserSaga);
   yield takeLatest(CHECK_AUTH_STATE, checkAuthStateSaga);
@@ -59,4 +59,4 @@ function* logoutUserSaga(action) {
   }
 }
 
-export default apiCallSaga;
+export default authSaga;
