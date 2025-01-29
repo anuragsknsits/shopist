@@ -33,7 +33,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="/signup/:role" element={<SignUp />} />  {/* Dynamic route for SignUp */}
+            <Route path="/signup" element={<SignUp />} />  {/* Dynamic route for SignUp */}
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
           </Routes>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../../redux/actions/loginAction";
 import logo from "../../img/VKADLogo.jpg";
+import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ emailId: "", password: "" });
@@ -34,28 +35,34 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col">
             <label className="text-gray-700">Email</label>
-            <input
-              type="email"
-              name="emailId"
-              value={credentials.emailId}
-              onChange={handleChange}
-              placeholder="Enter email"
-              required
-              className="mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+              <HiOutlineMail className="text-gray-400 ml-3" />
+              <input
+                type="email"
+                name="emailId"
+                value={credentials.emailId}
+                onChange={handleChange}
+                placeholder="Enter email"
+                required
+                className="mt-2 p-3 w-full border-0 focus:ring-0"
+              />
+            </div>
           </div>
 
           <div className="flex flex-col">
             <label className="text-gray-700">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              placeholder="Enter password"
-              required
-              className="mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
+            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+              <HiLockClosed className="text-gray-400 ml-3" />
+              <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                placeholder="Enter password"
+                required
+                className="mt-2 p-3 w-full border-0 focus:ring-0"
+              />
+            </div>
           </div>
 
           {error && <div className="text-red-500 text-sm">{error}</div>}
@@ -74,8 +81,17 @@ const Login = () => {
             Forgot Password?
           </a>
         </div>
-      </div>
-    </div>
+
+        <div className="text-center mt-4">
+          <p className="text-sm text-gray-600">
+            Don't have an account?{" "}
+            <a href="/signup" className="text-blue-600 hover:underline">
+              Sign Up
+            </a>
+          </p>
+        </div>
+      </div >
+    </div >
   );
 };
 
