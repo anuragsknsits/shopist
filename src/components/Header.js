@@ -1,6 +1,4 @@
-// src/components/Header.js
 import React from 'react';
-import { Container, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import NavigationMenu from './NavigationMenu';
@@ -15,25 +13,25 @@ const Header = ({ onLogout }) => {
   const username = useSelector(userName);
 
   return (
-    <Navbar expand="lg" className="header" variant="light">
-      <Container>
-        <Navbar.Brand as={Link} to='/'>
+    <header className="bg-white shadow-md">
+      <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-2">
           <img
             src={logo}
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
             alt="VKAD Associates logo"
+            className="w-8 h-8"
           />
-          {' VKAD Associates'}
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+          <span className="text-xl font-semibold text-gray-700">VKAD Associates</span>
+        </Link>
+
+        {/* Navigation & Auth Links */}
+        <div className="flex items-center space-x-6">
           <NavigationMenu isAuthenticated={isAuthenticated} />
           <AuthLinks username={username} isAuthenticated={isAuthenticated} onLogout={onLogout} />
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        </div>
+      </div>
+    </header>
   );
 };
 

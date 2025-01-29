@@ -1,9 +1,7 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
-import { Dashboard } from './pages/Dashboard';
 import AboutUs from './pages/About';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
@@ -24,18 +22,18 @@ function App() {
 
   return (
     <Router>
-      <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
-      <div className="app-container">
-        
-        <div className="content">
+      <div className="flex">
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Main Content */}
+        <div className="flex-1 p-5">
+          <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
           <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
             <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
@@ -44,6 +42,6 @@ function App() {
       </div>
     </Router>
   );
-};
+}
 
 export default App;

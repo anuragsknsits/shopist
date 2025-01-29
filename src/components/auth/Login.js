@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { loginRequest } from '../../redux/actions/loginAction';
-import '../../styles/Login.css';
 import logo from '../../img/VKADLogo.jpg';
 
 const Login = () => {
@@ -28,57 +26,63 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <Container className="login-container">
-      <Row className="justify-content-center">
-        <Col xs={12} md={6} lg={4} className="d-none d-md-block">
-          <div className="ad-container">
-            <img src={logo} alt="VKAD Associate Advertisement" className="ad-image" />
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
+        <div className="hidden md:block mb-6">
+          <img src={logo} alt="VKAD Associate Advertisement" className="w-full object-contain" />
+        </div>
+        <h1 className="text-3xl font-semibold text-center mb-6">Log In</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex flex-col">
+            <label htmlFor="username" className="text-gray-700">Username</label>
+            <input
+              type="text"
+              name="username"
+              value={credentials.username}
+              onChange={handleChange}
+              placeholder="Enter username"
+              required
+              autoComplete="username"
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-        </Col>
-        <Col xs={12} md={6} lg={4}>
-          <div className="login-form">
-            <h1 className="h1 text-center">Log In</h1>
-            <Form onSubmit={handleSubmit} className="p-4 border rounded">
-              <Form.Group controlId="formUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="username"
-                  value={credentials.username}
-                  onChange={handleChange}
-                  placeholder="Enter username"
-                  required
-                  autoComplete="username"
-                />
-              </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  value={credentials.password}
-                  onChange={handleChange}
-                  placeholder="Enter password"
-                  required
-                  autoComplete="current-password"
-                />
-              </Form.Group>
-
-              {error && <div className="text-danger">{error}</div>}
-
-              <Button variant="primary" type="submit" disabled={loading} className="w-100">
-                {loading ? (
-                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                ) : (
-                  'Login'
-                )}
-              </Button>
-            </Form>
+          <div className="flex flex-col">
+            <label htmlFor="password" className="text-gray-700">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={credentials.password}
+              onChange={handleChange}
+              placeholder="Enter password"
+              required
+              autoComplete="current-password"
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-        </Col>
-      </Row>
-    </Container>
+
+          {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+          >
+            {loading ? (
+              <span className="flex justify-center items-center">
+                <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0H4z"></path>
+                </svg>
+                Logging in...
+              </span>
+            ) : (
+              'Login'
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 

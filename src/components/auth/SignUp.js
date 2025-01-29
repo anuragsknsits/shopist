@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Spinner, Container, Row, Col } from 'react-bootstrap';
 import { registerRequest } from '../../redux/actions/signupAction';
 import { fetchRolesRequest } from '../../redux/actions/roleActions';
-import '../../styles/Login.css';
 
 const SignUp = () => {
   const [user, setUser] = useState({ firstName: '', lastName: '', emailId: '', password: '', role: '' });
@@ -26,98 +24,104 @@ const SignUp = () => {
   };
 
   return (
-    <Container className="login-container">
-      <Row className="justify-content-center">
-        <Col xs={12} md={6} lg={8}>
-          <div className="login-form">
-            <h1 className="h1 text-center">Sign Up</h1>
-            <Form onSubmit={handleSubmit} className="p-4 border rounded">
-
-              <Form.Group controlId="formFirstName">
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="firstName"
-                  value={user.firstName}
-                  onChange={handleChange}
-                  placeholder="Enter First Name"
-                  required
-                  autoComplete="given-name"
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formLastName">
-                <Form.Label>Last Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="lastName"
-                  value={user.lastName}
-                  onChange={handleChange}
-                  placeholder="Enter Last Name"
-                  required
-                  autoComplete="family-name"
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formEmailId">
-                <Form.Label>Email ID</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="emailId"
-                  value={user.emailId}
-                  onChange={handleChange}
-                  placeholder="Enter Email ID"
-                  required
-                  autoComplete="email"
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  value={user.password}
-                  onChange={handleChange}
-                  placeholder="Enter Password"
-                  required
-                  autoComplete="new-password"
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="formRole">
-                <Form.Label>Role</Form.Label>
-                <Form.Select
-                  name="role"
-                  value={user.role}
-                  onChange={handleChange}
-                  required
-                  disabled={rolesLoading} // Disable while roles are loading
-                >
-                  <option value="">Select Role</option>
-                  {roles.map(role => (
-                    <option key={role.id} value={role.name}>
-                      {role.name}
-                    </option>
-                  ))}
-                </Form.Select>
-                {rolesError && <div className="text-danger">{rolesError}</div>}
-              </Form.Group>
-
-              {error && <div className="text-danger">{error}</div>}
-
-              <Button variant="primary" type="submit" disabled={loading}>
-                {loading ? (
-                  <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
-                ) : (
-                  'Sign Up'
-                )}
-              </Button>
-            </Form>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <h1 className="text-3xl font-semibold text-center mb-6">Sign Up</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex flex-col">
+            <label htmlFor="firstName" className="text-gray-700">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              value={user.firstName}
+              onChange={handleChange}
+              placeholder="Enter First Name"
+              required
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
-        </Col>
-      </Row>
-    </Container>
+
+          <div className="flex flex-col">
+            <label htmlFor="lastName" className="text-gray-700">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              value={user.lastName}
+              onChange={handleChange}
+              placeholder="Enter Last Name"
+              required
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="emailId" className="text-gray-700">Email ID</label>
+            <input
+              type="email"
+              name="emailId"
+              value={user.emailId}
+              onChange={handleChange}
+              placeholder="Enter Email ID"
+              required
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="password" className="text-gray-700">Password</label>
+            <input
+              type="password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+              placeholder="Enter Password"
+              required
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label htmlFor="role" className="text-gray-700">Role</label>
+            <select
+              name="role"
+              value={user.role}
+              onChange={handleChange}
+              required
+              disabled={rolesLoading}
+              className="mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">Select Role</option>
+              {roles.map(role => (
+                <option key={role.id} value={role.name}>
+                  {role.name}
+                </option>
+              ))}
+            </select>
+            {rolesError && <div className="text-red-500 text-sm mt-2">{rolesError}</div>}
+          </div>
+
+          {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+          >
+            {loading ? (
+              <span className="flex justify-center items-center">
+                <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0H4z"></path>
+                </svg>
+                Signing Up...
+              </span>
+            ) : (
+              'Sign Up'
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 
