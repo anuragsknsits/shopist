@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Home } from './pages/Home';
+import Home from './pages/Home';
 import { Profile } from './pages/Profile';
 import AboutUs from './pages/About';
 import SignUp from './components/auth/SignUp';
@@ -23,8 +23,8 @@ function App() {
   return (
     <Router>
       <div className="flex">
-        {/* Sidebar */}
-        <Sidebar />
+        {/* Sidebar, only for authenticated users */}
+        {isAuthenticated && <Sidebar />}
 
         {/* Main Content */}
         <div className="flex-1 p-5">
@@ -34,9 +34,7 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-              <Route path="/profile" element={<Profile />} />
-            </Route>
+            <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
           </Routes>
         </div>
       </div>

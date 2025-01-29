@@ -26,12 +26,12 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
-        <div className="hidden md:block mb-6">
-          <img src={logo} alt="VKAD Associate Advertisement" className="w-full object-contain" />
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-green-500">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg space-y-6">
+        <div className="flex justify-center mb-6">
+          <img src={logo} alt="VKAD Associates Logo" className="w-40 object-contain" />
         </div>
-        <h1 className="text-3xl font-semibold text-center mb-6">Log In</h1>
+        <h1 className="text-3xl font-semibold text-center mb-6 text-gray-700">Log In</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col">
             <label htmlFor="username" className="text-gray-700">Username</label>
@@ -66,7 +66,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+            className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition"
           >
             {loading ? (
               <span className="flex justify-center items-center">
@@ -81,6 +81,11 @@ const Login = () => {
             )}
           </button>
         </form>
+        <div className="text-center mt-4">
+          <p className="text-gray-600">
+            Don't have an account? <a href="/signup" className="text-blue-600 hover:underline">Sign Up</a>
+          </p>
+        </div>
       </div>
     </div>
   );
