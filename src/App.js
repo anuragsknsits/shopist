@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import { Profile } from './pages/Profile';
+import ChangePassword from './components/auth/ChangePassword';
 import AboutUs from './pages/About';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
@@ -35,7 +36,9 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/signup" element={<SignUp />} />  {/* Dynamic route for SignUp */}
             <Route path="/login" element={<Login />} />
+            <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
+            {/* <Route path="/change-password" element={<PrivateRoute isAuthenticated={isAuthenticated}><ChangePassword/></PrivateRoute>} /> */}
           </Routes>
         </div>
       </div>

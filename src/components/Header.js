@@ -45,7 +45,7 @@ const Header = ({ isAuthenticated, onLogout }) => {
               onMouseLeave={handleMouseLeave}
             >
               {/* Profile Button */}
-              <button className="text-gray-700 hover:text-gray-900 flex items-center space-x-2 px-4 py-2 bg-orange-500 text-white rounded-md">
+              <button className="text-gray-700 hover:text-gray-900 flex items-center space-x-2 px-4 py-2 bg-grey-500 text-white rounded-md">
                 <FaUser className="text-white" />
                 <span>My Profile</span>
                 <FaCaretDown className="ml-2" />

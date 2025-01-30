@@ -1,7 +1,11 @@
 import { put, takeEvery, takeLatest, call } from "redux-saga/effects";
-import { LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE, LOGOUT_REQUEST } from "../constant";
+import { LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE, LOGOUT_REQUEST, CHANGE_PASSWORD_REQUEST } from "../constant";
 import { registerSuccess, registerFailure } from '../../redux/actions/signupAction';
-import { loginSuccess, loginFailure, logoutSuccess, logoutFailure } from '../../redux/actions/loginAction';
+import {
+  loginSuccess, loginFailure, logoutSuccess,
+  logoutFailure, changePasswordFailure, changePasswordSuccess
+}
+  from '../../redux/actions/loginAction';
 import axios from "../../api/axiosConfig";  // Use the new axios config
 import Cookies from 'js-cookie';
 
@@ -10,12 +14,22 @@ function* authSaga() {
   yield takeLatest(REGISTER_REQUEST, registerUserSaga);
   yield takeLatest(CHECK_AUTH_STATE, checkAuthStateSaga);
   yield takeEvery(LOGOUT_REQUEST, logoutUserSaga);
+  yield takeLatest(CHANGE_PASSWORD_REQUEST, changePasswordSaga);
+}
+
+function* changePasswordSaga(action) {
+  try {
+    const response = yield call(axios.post, '/auth/change-password', action.payload);
+    yield put(changePasswordSuccess(response.message));
+  } catch (error) {
+    yield put(changePasswordFailure(error.response?.data?.message || "Failed to change password"));
+  }
 }
 
 function* loginUserSaga(action) {
   try {
     const response = yield call(axios.post, '/auth/login', action.payload);
-    Cookies.set('authToken', response.data.token, { expires: 1, secure: true, sameSite: 'Strict'});
+    Cookies.set('authToken', response.data.token, { expires: 1, secure: true, sameSite: 'Strict' });
     yield put(loginSuccess(response.data.username));
   } catch (error) {
     yield put(loginFailure(error.message));
