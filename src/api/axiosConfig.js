@@ -32,7 +32,6 @@ const fetchCsrfToken = async () => {
 instance.interceptors.request.use(
   async config => {
     // Ensure CSRF token is available, if not fetch it
-
     let cookieToken = Cookies.get('XSRF-TOKEN');
     if (typeof (cookieToken) !== 'undefined') {
       if (!csrfToken) {
@@ -43,12 +42,11 @@ instance.interceptors.request.use(
       await fetchCsrfToken();
     }
 
-
     if (csrfToken) {
       config.headers['X-XSRF-TOKEN'] = csrfToken;
     }
 
-    const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('jwt='));
+    const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('authToken='));
     if (tokenCookie) {
       const token = tokenCookie.split('=')[1];
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -57,6 +55,20 @@ instance.interceptors.request.use(
     return config;
   },
   error => {
+    return Promise.reject(error);
+  }
+);
+
+// Add a response interceptor to handle expired JWT token
+instance.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      // JWT token is expired or invalid
+      Cookies.remove('authToken', { path: '/' });
+      // Optionally, redirect to login page or dispatch a logout action
+      window.location.href = '/login'; // Redirect to login page
+    }
     return Promise.reject(error);
   }
 );
