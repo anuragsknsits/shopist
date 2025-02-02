@@ -22,7 +22,12 @@ function* changePasswordSaga(action) {
     const response = yield call(axios.post, '/auth/change-password', action.payload);
     yield put(changePasswordSuccess(response.message));
   } catch (error) {
-    yield put(changePasswordFailure(error.response?.data?.message || "Failed to change password"));
+    if (error.response?.status === 401) {
+      Cookies.remove('authToken');
+      yield put(logoutSuccess());
+    } else {
+      yield put(changePasswordFailure(error.response?.data?.message || "Failed to change password"));
+    }
   }
 }
 
@@ -49,10 +54,10 @@ function* checkAuthStateSaga() {
   const token = Cookies.get('authToken');
   if (token) {
     try {
-      const response = yield call(axios.get, '/auth/verifyToken');
-      yield put(loginSuccess(response.data));
+      yield call(axios.get, '/auth/verifyToken');
+      yield put(loginSuccess());
     } catch (error) {
-      Cookies.remove('authToken', { path: '/' });
+      Cookies.remove('authToken');
       yield put(logoutSuccess());
     }
   } else {

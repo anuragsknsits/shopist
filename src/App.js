@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import { Profile } from './pages/Profile';
 import ChangePassword from './components/auth/ChangePassword';
 import AboutUs from './pages/About';
+import Contact from './pages/Contact';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import Header from './components/Header';
@@ -36,9 +37,9 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/signup" element={<SignUp />} />  {/* Dynamic route for SignUp */}
             <Route path="/login" element={<Login />} />
-            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
-            {/* <Route path="/change-password" element={<PrivateRoute isAuthenticated={isAuthenticated}><ChangePassword/></PrivateRoute>} /> */}
+            <Route path="/change-password" element={<PrivateRoute isAuthenticated={isAuthenticated}><ChangePassword/></PrivateRoute>} />
           </Routes>
         </div>
       </div>
