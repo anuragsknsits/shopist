@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import { Profile } from './pages/Profile';
+import Dashboard from './pages/Dashboard';
+import Client from './pages/Client';
 import ChangePassword from './components/auth/ChangePassword';
 import AboutUs from './pages/About';
 import Contact from './pages/Contact';
@@ -40,6 +42,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
             <Route path="/change-password" element={<PrivateRoute isAuthenticated={isAuthenticated}><ChangePassword/></PrivateRoute>} />
+            <Route path="/dashboard" element={<PrivateRoute isAuthenticated={isAuthenticated}><Dashboard/></PrivateRoute>} />
+            <Route path="/clients" element={<PrivateRoute isAuthenticated={isAuthenticated}><Client/></PrivateRoute>} />
           </Routes>
         </div>
       </div>
