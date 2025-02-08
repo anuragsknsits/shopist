@@ -10,7 +10,7 @@ const Profile = () => {
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    pancard: "",
+    panCard: "",
     address: "",
   });
 
@@ -26,7 +26,7 @@ const Profile = () => {
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         phoneNumber: user.phoneNumber || "",
-        pancard: user.pancard || "",
+        panCard: user.panCard || "",
         address: user.address || "",
       });
     }
@@ -84,8 +84,8 @@ const Profile = () => {
 
         <input
           type="text"
-          name="pancard"
-          value={formData.pancard}
+          name="panCard"
+          value={formData.panCard}
           onChange={handleChange}
           placeholder="PAN Card"
           className="p-2 border rounded w-full"

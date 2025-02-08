@@ -16,7 +16,7 @@ function* fetchProfile() {
 function* updateProfileSaga(action) {
   try {
     console.log(action.payload);
-    const response = yield call(axios.post, '/auth/profile', action.payload, { withCredentials: true });
+    const response = yield call(axios.put, '/auth/profile', action.payload, { withCredentials: true });
     yield put(updateProfileSuccess(response.data));
   } catch (error) {
     yield put(updateProfileFailure(error.response?.data?.message || "Update failed"));
