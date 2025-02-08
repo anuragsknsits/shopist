@@ -1,7 +1,7 @@
 import {
-    FETCH_PROFILE_REQUEST,
-    FETCH_PROFILE_SUCCESS,
-    FETCH_PROFILE_FAILURE,
+    FETCH_PROFILE_REQUEST, UPDATE_PROFILE_REQUEST,
+    FETCH_PROFILE_SUCCESS, UPDATE_PROFILE_SUCCESS,
+    FETCH_PROFILE_FAILURE, UPDATE_PROFILE_FAILURE
 } from "../constant";
 
 const initialState = {
@@ -22,6 +22,12 @@ export const profileReducer = (state = initialState, action) => {
             return { ...state, profile: action.payload, loading: false };
         case FETCH_PROFILE_FAILURE:
             return { ...state, error: action.payload, loading: false };
+        case UPDATE_PROFILE_REQUEST:
+            return { ...state, loading: true, error: null };
+        case UPDATE_PROFILE_SUCCESS:
+            return { ...state, profile: action.payload, loading: false }
+        case UPDATE_PROFILE_FAILURE:
+            return { ...state, error: action.payload, loading: false }
         default:
             return state;
     }
