@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaCaretDown, FaArrowRight } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Header = ({ isAuthenticated, onLogout }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const user = useSelector((state) => state.auth?.user);
+  const username = user?.username || user?.email;
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   let timeoutId = useRef(null); // To store timeout ID
@@ -47,7 +50,7 @@ const Header = ({ isAuthenticated, onLogout }) => {
               {/* Profile Button */}
               <button className="text-gray-700 hover:text-gray-900 flex items-center space-x-2 px-4 py-2 bg-grey-500 text-white rounded-md">
                 <FaUser className="text-white" />
-                <span>My Profile</span>
+                <span>Hi {username} </span>
                 <FaCaretDown className="ml-2" />
               </button>
 

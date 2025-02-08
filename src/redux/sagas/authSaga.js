@@ -21,7 +21,8 @@ function* authSaga() {
 function* loginUserSaga(action) {
   try {
     const response = yield call(axios.post, '/auth/login', action.payload, { withCredentials: true });
-    yield put(loginSuccess(response.data.username));
+    yield put(loginSuccess(response.data));
+    console.log(response.data);
   } catch (error) {
     yield put(loginFailure(error.response?.data?.message || "Login failed"));
   }
@@ -52,10 +53,10 @@ function* registerUserSaga(action) {
 
 function* checkAuthStateSaga() {
   try {
-    yield call(axios.get, '/auth/verifyToken', { withCredentials: true });
-    yield put(loginSuccess()); 
+    const response = yield call(axios.get, '/auth/verifyToken', { withCredentials: true });
+    yield put(loginSuccess(response.data)); // Send user data
   } catch (error) {
-    yield put(logoutSuccess());  // If verify fails, log out the user
+    yield put(logoutSuccess());
   }
 }
 

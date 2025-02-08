@@ -8,7 +8,7 @@ const initialState = {
   user: null,
   loading: false,
   error: null,
-  successMessage: null, // ✅ Added this to avoid undefined state issues
+  successMessage: null,
 };
 
 export const authReducer = (state = initialState, action) => {
