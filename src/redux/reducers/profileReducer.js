@@ -5,7 +5,7 @@ import {
 } from "../constant";
 
 const initialState = {
-    profile: null,
+    user: null,
     loading: false,
     error: null,
 };
@@ -19,13 +19,13 @@ export const profileReducer = (state = initialState, action) => {
                 error: null
             };
         case FETCH_PROFILE_SUCCESS:
-            return { ...state, profile: action.payload, loading: false };
+            return { ...state, user: action.payload, loading: false };
         case FETCH_PROFILE_FAILURE:
             return { ...state, error: action.payload, loading: false };
         case UPDATE_PROFILE_REQUEST:
             return { ...state, loading: true, error: null };
         case UPDATE_PROFILE_SUCCESS:
-            return { ...state, profile: action.payload, loading: false }
+            return { ...state, user: action.payload, loading: false }
         case UPDATE_PROFILE_FAILURE:
             return { ...state, error: action.payload, loading: false }
         default:

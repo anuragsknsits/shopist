@@ -18,10 +18,9 @@ export const fetchProfileFailure = (error) => ({
   payload: error,
 });
 
-// Update Profile Action
-export const updateProfileRequest = (profileData) => ({
+export const updateProfileRequest = (profile) => ({
   type: UPDATE_PROFILE_REQUEST,
-  payload: profileData,
+  payload: profile,
 });
 
 export const updateProfileSuccess = (profile) => ({
