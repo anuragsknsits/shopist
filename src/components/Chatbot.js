@@ -14,6 +14,13 @@ const Chatbot = () => {
         setInput("");
     };
 
+    // Handle Enter Key Press
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    };
+
     return (
         <div className="fixed bottom-4 right-4">
             <button onClick={() => setOpen(!open)} className="bg-blue-600 text-white p-3 rounded-full shadow-lg">
@@ -40,6 +47,7 @@ const Chatbot = () => {
                             type="text"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={handleKeyDown}  // Press Enter to send message
                             className="border p-2 flex-1 rounded-l-lg"
                             placeholder="Type a message..."
                         />
