@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Briefcase, FileText, Phone, Users } from "lucide-react";
+import Chatbot from "../components/Chatbot";
 
 const Home = () => {
   return (
@@ -15,6 +16,8 @@ const Home = () => {
           </Link>
         </div>
       </section>
+
+      <Chatbot />
 
       {/* Services Section */}
       <section className="container mx-auto px-4 py-12">
