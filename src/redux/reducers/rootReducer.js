@@ -4,6 +4,7 @@ import { authReducer } from "./authReducer";
 import { profileReducer } from "./profileReducer";
 import { roleReducer } from "./roleReducer";
 import { firmReducer } from "./firmReducer";
+import { chatBotReducer } from "./chatBotReducer";
 
 export default combineReducers({
     user: signupReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
     profile: profileReducer,
     role: roleReducer,
     firms: firmReducer,
+    chatbot: chatBotReducer,
 });
