@@ -8,14 +8,18 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { checkAuthState } from './redux/actions/loginAction';
 import { CookiesProvider } from 'react-cookie';
+import { BrowserRouter } from 'react-router-dom';  // ✅ Added BrowserRouter here
 
+// Check authentication state on app load
 store.dispatch(checkAuthState());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <CookiesProvider>
-      <App />
+      <BrowserRouter> {/* ✅ Now App.js has access to useNavigate() */}
+        <App />
+      </BrowserRouter>
     </CookiesProvider>
   </Provider>
 );

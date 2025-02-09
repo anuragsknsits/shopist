@@ -65,7 +65,9 @@ function* logoutUserSaga(action) {
   try {
     yield call(axios.post, '/auth/logout', {}, { withCredentials: true });
     yield put(logoutSuccess());
-    navigate('/login');
+    if (navigate) {
+      navigate("/login"); // ✅ Only call navigate if it's provided
+    }
     window.location.reload();  // Ensure session is cleared
   } catch (error) {
     yield put(logoutFailure(error.response?.data?.message || "Logout failed"));
