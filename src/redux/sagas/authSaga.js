@@ -1,12 +1,13 @@
 import { put, takeEvery, takeLatest, call } from "redux-saga/effects";
 import { 
   LOGIN_REQUEST, REGISTER_REQUEST, CHECK_AUTH_STATE, 
-  LOGOUT_REQUEST, CHANGE_PASSWORD_REQUEST 
+  LOGOUT_REQUEST, CHANGE_PASSWORD_REQUEST, FORGET_PASSWORD_REQUEST
 } from "../constant";
 import { registerSuccess, registerFailure } from '../../redux/actions/signupAction';
 import {
   loginSuccess, loginFailure, logoutSuccess,
-  logoutFailure, changePasswordFailure, changePasswordSuccess
+  logoutFailure, changePasswordFailure, changePasswordSuccess,
+  forgetPasswordSuccess, forgetPasswordFailure
 } from '../../redux/actions/loginAction';
 import axios from "../../api/axiosConfig";  // Uses your CSRF & auth-configured axios
 
@@ -16,6 +17,7 @@ function* authSaga() {
   yield takeLatest(CHECK_AUTH_STATE, checkAuthStateSaga);
   yield takeEvery(LOGOUT_REQUEST, logoutUserSaga);
   yield takeLatest(CHANGE_PASSWORD_REQUEST, changePasswordSaga);
+  yield takeLatest(FORGET_PASSWORD_REQUEST, forgetPasswordSaga);
 }
 
 function* loginUserSaga(action) {
@@ -53,9 +55,10 @@ function* registerUserSaga(action) {
 
 function* checkAuthStateSaga() {
   try {
-    const response = yield call(axios.get, '/auth/verifyToken', { withCredentials: true });
+    const response = yield call(axios.get, "/auth/verifyToken", { withCredentials: true });
     yield put(loginSuccess(response.data)); // Send user data
   } catch (error) {
+    console.error("Auth check failed:", error.response?.data || error.message);
     yield put(logoutSuccess());
   }
 }
@@ -66,11 +69,21 @@ function* logoutUserSaga(action) {
     yield call(axios.post, '/auth/logout', {}, { withCredentials: true });
     yield put(logoutSuccess());
     if (navigate) {
-      navigate("/login"); // ✅ Only call navigate if it's provided
+      navigate("/login");
     }
-    window.location.reload();  // Ensure session is cleared
+    //window.location.reload();
   } catch (error) {
+    //window.location.reload();
     yield put(logoutFailure(error.response?.data?.message || "Logout failed"));
+  }
+}
+
+function* forgetPasswordSaga(action) {
+  try {
+    const response = yield call(axios.post, '/auth/forgot-password', { email: action.payload });
+    yield put(forgetPasswordSuccess(response.data.message || 'Reset link sent!'));
+  } catch (error) {
+    yield put(forgetPasswordFailure(error.response?.data?.message || 'Failed to send reset link'));
   }
 }
 

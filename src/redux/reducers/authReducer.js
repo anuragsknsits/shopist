@@ -1,6 +1,7 @@
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, CHECK_AUTH_STATE,
-  CHANGE_PASSWORD_REQUEST, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE
+  CHANGE_PASSWORD_REQUEST, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE,
+  FORGET_PASSWORD_REQUEST, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILURE
 } from "../constant";
 
 const initialState = {
@@ -66,6 +67,27 @@ export const authReducer = (state = initialState, action) => {
         loading: false, 
         error: action.payload,
         successMessage: null // ✅ Ensure success message is reset on failure
+      };
+    case FORGET_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        successMessage: null
+      };
+    case FORGET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        successMessage: action.payload,
+        error: null
+      };
+    case FORGET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        successMessage: null
       };
     default:
       return state;

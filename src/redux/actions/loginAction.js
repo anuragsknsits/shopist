@@ -2,6 +2,7 @@ import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
     LOGOUT_FAILURE, LOGOUT_SUCCESS, LOGOUT_REQUEST, CHECK_AUTH_STATE
     , CHANGE_PASSWORD_REQUEST, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE
+    , FORGET_PASSWORD_REQUEST, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILURE
 } from "../constant";
 
 export const loginRequest = (credentials) => ({
@@ -49,6 +50,22 @@ export const changePasswordSuccess = (message) => ({
 
 export const changePasswordFailure = (error) => ({
     type: CHANGE_PASSWORD_FAILURE,
+    payload: error,
+});
+
+// Forget Password Actions
+export const forgetPasswordRequest = (email) => ({
+    type: FORGET_PASSWORD_REQUEST,
+    payload: email,
+});
+
+export const forgetPasswordSuccess = (message) => ({
+    type: FORGET_PASSWORD_SUCCESS,
+    payload: message,
+});
+
+export const forgetPasswordFailure = (error) => ({
+    type: FORGET_PASSWORD_FAILURE,
     payload: error,
 });
 

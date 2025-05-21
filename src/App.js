@@ -15,6 +15,7 @@ import Login from "./components/auth/Login";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ForgetPassword from "./components/auth/ForgetPassword";
 import "./App.css";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/forgot-password" element={<ForgetPassword />} />
 
           {/* Protected Routes (Only for Authenticated Users) */}
           <Route element={<ProtectedRoute />}>
