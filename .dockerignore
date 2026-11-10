@@ -6,3 +6,11 @@ build
 .env*
 test-results
 playwright-report
+coverage
+.github
+.vscode
+docs
+tests
+*.md
+*.log
+compose*.yaml

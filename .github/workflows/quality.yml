@@ -17,3 +17,9 @@ jobs:
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run test:e2e
       - run: npm audit --audit-level=moderate
+      - name: Build production image and enforce 200 MB limit
+        run: |
+          docker build --target production -t shopist:production .
+          size=$(docker image inspect shopist:production --format '{{.Size}}')
+          echo "Production image size: ${size} bytes (limit: 200000000)"
+          test "$size" -le 200000000

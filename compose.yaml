@@ -1,0 +1,18 @@
+services:
+  shopist:
+    image: shopist:production
+    build:
+      context: .
+      target: production
+    ports:
+      - "127.0.0.1:${UI_PORT:-3000}:8080"
+    environment:
+      GATEWAY_HOST: ${GATEWAY_HOST:-host.docker.internal}
+      GATEWAY_PORT: ${GATEWAY_PORT:-8080}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

@@ -44,10 +44,16 @@ flowchart LR
 
 ## Deployment and backend controls
 
+- [Quality workflow](.github/workflows/quality.yml) builds the runtime image and rejects sizes over 200,000,000 bytes after the existing UI checks.
+
+- [Dockerfile](Dockerfile): cached Node 22 Alpine dependencies → Vite build → unprivileged Nginx Alpine production image. Only `dist/` and Nginx configuration enter the runtime; health check uses `/healthz`.
+- [compose.yaml](compose.yaml): `shopist:production` on `127.0.0.1:3000`, configurable with `UI_PORT`. Defaults to the Docker Desktop host gateway at `host.docker.internal:8080`; override `GATEWAY_HOST` and `GATEWAY_PORT` for other deployments.
+- [Nginx template](deploy/nginx.conf): entrypoint substitutes gateway environment variables; `/auth`, `/cart`, `/chat` and `/csrf-token` proxy without shared caching, other routes use the SPA fallback. Runtime defaults to `gateway-service:8080` outside Compose. TLS terminates at the production ingress. See [deployment instructions](docs/DEPLOYMENT.md).
+
 - Development defaults to `http://localhost:8080`. Use the same host name for the UI and gateway. Production defaults to same-origin HTTPS. Route `/csrf-token` and `/auth/**` to the gateway before applying the SPA fallback. Set `VITE_GATEWAY_URL` at build time for a separate gateway origin and keep both origins on the same site for the existing Strict cookie policy.
 - The gateway currently allows credentialed CORS for any origin. Before production exposure, restrict this to explicit trusted origins, or remove cross-origin access for a same-origin deployment. Keep auth and CSRF responses out of shared caches.
 - Gateway public-route checks use substring matching. Use exact method and path matchers. The auth service ignores several public paths at the filter-chain level and returns `401` for access denial. Keep public routes in the security chain, explicitly require authentication for protected routes, and return `403` for CSRF or authorization failures.
 - Enable server-side method security for role and profile checks, verify user-level resource ownership, and keep internal services private. Verify that both Spring CSRF filters accept the same masked header and cookie pair, including after login and logout.
 - Verify in a fresh browser profile that a single login submission succeeds, a reload restores the session, logout clears it, and the first write after logout obtains a fresh token. Confirm denied access in the server-side authorization tests.
 
-Backend source and existing project graphs are under [Finworkspace](../../finworkspace/KNOWLEDGE_GRAPH.md). See [Spring Security WebFlux CSRF](https://docs.spring.io/spring-security/reference/reactive/exploits/csrf.html) and the [OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
+Backend source and existing project graphs are under [Finworkspace](../KNOWLEDGE_GRAPH.md). See [Spring Security WebFlux CSRF](https://docs.spring.io/spring-security/reference/reactive/exploits/csrf.html) and the [OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html).
