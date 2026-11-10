@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { sendMessageRequest } from "../redux/actions/chatBotActions";
+import { useSelector } from "react-redux";
+import { apiErrorMessage, useSendMessageMutation } from "../api/shopApi";
 
 const Chatbot = () => {
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState("");
-    const dispatch = useDispatch();
+    const [submitMessage, { isLoading, error }] = useSendMessageMutation();
     const messages = useSelector((state) => state.chatbot.messages);
 
     const sendMessage = () => {
-        if (input.trim() === "") return;
-        dispatch(sendMessageRequest(input));
+        if (isLoading || input.trim() === "") return;
+        submitMessage(input);
         setInput("");
     };
 
@@ -42,6 +42,7 @@ const Chatbot = () => {
                         ))}
                     </div>
 
+                    {error && <p role="alert">{apiErrorMessage(error, "Failed to get a chat response")}</p>}
                     <div className="flex mt-2">
                         <input
                             type="text"
@@ -51,7 +52,7 @@ const Chatbot = () => {
                             className="border p-2 flex-1 rounded-l-lg"
                             placeholder="Type a message..."
                         />
-                        <button onClick={sendMessage} className="bg-blue-600 text-white px-4 rounded-r-lg">➤</button>
+                        <button onClick={sendMessage} disabled={isLoading} className="bg-blue-600 text-white px-4 rounded-r-lg">➤</button>
                     </div>
                 </div>
             )}

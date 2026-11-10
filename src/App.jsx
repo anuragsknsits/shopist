@@ -2,7 +2,8 @@
 import React from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutRequest } from "./redux/actions/loginAction";
+import { apiErrorMessage, shopApi, useLogoutMutation } from "./api/shopApi";
+import { selectIsAuthenticated } from "./components/selectors/authSelectors";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
@@ -20,11 +21,17 @@ import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // ✅ Now this will work
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [logout, { isLoading: loggingOut, error: logoutError }] = useLogoutMutation();
 
-  const handleLogout = () => {
-    dispatch(logoutRequest(navigate));
+  const handleLogout = async () => {
+    if (loggingOut) return;
+    const result = await logout();
+    if ('data' in result) {
+      dispatch(shopApi.util.resetApiState());
+      navigate("/login", { replace: true });
+    }
   };
 
   return (
@@ -34,7 +41,8 @@ function App() {
 
       {/* Main Content */}
       <div className="flex-1 p-5">
-        <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} loggingOut={loggingOut} />
+        {logoutError && <p role="alert">{apiErrorMessage(logoutError, "Logout failed. Try again.")}</p>}
 
         <Routes>
           {/* Public Routes */}

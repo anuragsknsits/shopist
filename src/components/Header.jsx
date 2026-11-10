@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaUser, FaCaretDown, FaArrowRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
-const Header = ({ isAuthenticated, onLogout }) => {
+const Header = ({ isAuthenticated, onLogout, loggingOut }) => {
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((state) => state.auth?.user);
   const username = user?.username || user?.email;
@@ -77,7 +77,9 @@ const Header = ({ isAuthenticated, onLogout }) => {
                       <FaArrowRight className="text-gray-500" />
                     </li>
                     <li className="flex justify-between items-center px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
-                      <button onClick={handleLogout} className="w-full text-left">Logout</button>
+                      <button onClick={handleLogout} disabled={loggingOut} className="w-full text-left">
+                        {loggingOut ? "Logging out..." : "Logout"}
+                      </button>
                       <FaArrowRight className="text-gray-500" />
                     </li>
                   </ul>

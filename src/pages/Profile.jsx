@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProfileRequest, updateProfileRequest } from "../redux/actions/profileActions";
+import { apiErrorMessage, useProfileQuery, useUpdateProfileMutation } from "../api/shopApi";
 
 const Profile = () => {
-  const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.profile);
+  const { data: user, isFetching, error: profileError } = useProfileQuery();
+  const [updateProfile, { isLoading: saving, error: updateError }] = useUpdateProfileMutation();
+  const error = updateError || profileError;
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -13,11 +13,6 @@ const Profile = () => {
     panCard: "",
     address: "",
   });
-
-  // Fetch profile data on component mount
-  useEffect(() => {
-    dispatch(fetchProfileRequest());
-  }, [dispatch]);
 
   // Populate form when user data is available
   useEffect(() => {
@@ -40,15 +35,15 @@ const Profile = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProfileRequest(formData));
+    if (!saving && !isFetching) updateProfile(formData);
   };
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
       <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
       
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {isFetching && <p role="status">Loading...</p>}
+      {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Could not load or update your profile")}</p>}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
@@ -101,8 +96,8 @@ const Profile = () => {
           required
         />
 
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
-          Save Changes
+        <button type="submit" disabled={saving || isFetching} className="bg-blue-500 text-white py-2 px-4 rounded">
+          {saving ? "Saving..." : "Save Changes"}
         </button>
       </form>
     </div>

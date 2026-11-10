@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginRequest } from "../../redux/actions/loginAction";
+import { apiErrorMessage, useLoginMutation } from "../../api/shopApi";
 import logo from "../../img/VKADLogo.jpg";
 import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ emailId: "", password: "" });
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { checkingSession, loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { checkingSession, user } = useSelector((state) => state.auth);
+  const [login, { isLoading: loading, error }] = useLoginMutation();
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/dashboard");
-  }, [isAuthenticated, navigate]);
+    if (user) navigate("/dashboard", { replace: true });
+  }, [user, navigate]);
 
   const handleChange = ({ target: { name, value } }) => {
     setCredentials((prev) => ({ ...prev, [name]: value }));
@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkingSession || loading) return;
-    dispatch(loginRequest(credentials));
+    login(credentials);
   };
 
   return (
@@ -66,7 +66,7 @@ const Login = () => {
             </div>
           </div>
 
-          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {error && <div role="alert" className="text-red-500 text-sm">{apiErrorMessage(error, "Login failed")}</div>}
 
           <button
             type="submit"

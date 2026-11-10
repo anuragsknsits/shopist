@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { forgetPasswordRequest } from "../../redux/actions/loginAction";
+import { apiErrorMessage, useForgotPasswordMutation } from "../../api/shopApi";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
-  const dispatch = useDispatch();
-  const { loading, error, success } = useSelector((state) => state.auth);
+  const [requestReset, { isLoading: loading, error, isSuccess }] = useForgotPasswordMutation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(forgetPasswordRequest(email));
+    if (!loading) requestReset(email);
   };
 
   return (
@@ -17,10 +15,10 @@ const ForgetPassword = () => {
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">
         Forgot Password
       </h2>
-      {error && <p className="text-red-500">{error}</p>}
-      {success && (
+      {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Failed to send reset link")}</p>}
+      {isSuccess && (
         <p className="text-green-500">
-          Reset link sent! Check your email.
+          If your email is registered, you’ll receive a reset link.
         </p>
       )}
       <form onSubmit={handleSubmit} className="space-y-4">

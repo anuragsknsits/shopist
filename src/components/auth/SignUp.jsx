@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../img/VKADLogo.jpg';
 import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
-import { registerRequest } from '../../redux/actions/signupAction';
+import { apiErrorMessage, useRegisterMutation } from '../../api/shopApi';
 
 const SignUp = () => {
   const [user, setUser] = useState({
@@ -10,7 +9,7 @@ const SignUp = () => {
     password: '',
     confirmPassword: ''
   });
-  const dispatch = useDispatch();
+  const [register, { isLoading, isSuccess, error }] = useRegisterMutation();
 
   const handleChange = ({ target: { name, value } }) => {
     setUser(prevState => ({ ...prevState, [name]: value }));
@@ -51,6 +50,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isLoading) return;
     const validationMessage = validateForm();
     
     if (validationMessage) {
@@ -58,7 +58,7 @@ const SignUp = () => {
       return;
     }
 
-    dispatch(registerRequest(user));
+    register(user);
   };
 
   return (
@@ -68,6 +68,8 @@ const SignUp = () => {
           <img src={logo} alt="VKAD Associates" className="w-40 object-contain" />
         </div>
         <h1 className="text-3xl font-semibold text-center text-gray-700">Sign Up</h1>
+        {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Registration failed")}</p>}
+        {isSuccess && <p role="status" className="text-green-500">Registration successful. You can now sign in.</p>}
         <form onSubmit={handleSubmit} className="space-y-4 mt-6">
           <div className="flex flex-col">
             <label htmlFor="emailId" className="text-gray-700">Email ID</label>
@@ -114,11 +116,12 @@ const SignUp = () => {
               />
             </div>
           </div>
-          <button 
+          <button
+            disabled={isLoading}
             type="submit" 
             className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
-            Sign Up
+            {isLoading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
 

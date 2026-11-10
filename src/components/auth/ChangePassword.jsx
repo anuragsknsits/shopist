@@ -1,29 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { changePasswordRequest } from "../../redux/actions/loginAction";
+import { apiErrorMessage, useChangePasswordMutation } from "../../api/shopApi";
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const dispatch = useDispatch();
-  const { loading, error, successMessage } = useSelector((state) => state.auth);
+  const [changePassword, { isLoading: loading, error, isSuccess, data }] = useChangePasswordMutation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (loading) return;
     if (newPassword !== confirmPassword) {
       alert("New password and confirm password do not match!");
       return;
     }
 
-    dispatch(changePasswordRequest({ oldPassword, newPassword }));
+    changePassword({ oldPassword, newPassword });
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-md">
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">Change Password</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      {successMessage && <p className="text-green-500">{successMessage}</p>}
+      {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Failed to change password")}</p>}
+      {isSuccess && <p className="text-green-500">{typeof data === "string" ? data : "Password changed."}</p>}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
