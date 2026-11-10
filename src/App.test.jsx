@@ -18,9 +18,9 @@ function renderApp(store, path) {
   );
 }
 
-test('renders the Shopist home page', () => {
+test('renders the Shopist home page', async () => {
   renderApp(createAppStore(), '/');
-  expect(screen.getByRole('heading', { name: 'Your Trusted Chartered Accountants' })).toBeInTheDocument();
+  expect(await screen.findByRole('heading', { name: 'Your Trusted Chartered Accountants' })).toBeInTheDocument();
 });
 
 test('a protected route waits for session verification before redirecting a guest', async () => {

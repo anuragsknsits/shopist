@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color-scheme: light; }
+  body { @apply m-0 bg-gray-50 text-gray-900; overflow-wrap: anywhere; }
+  img, video { max-width: 100%; height: auto; }
+  input, select, textarea { min-width: 0; font-size: 1rem; }
+  button, a, input, textarea, select { touch-action: manipulation; }
+  :focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+  button:disabled { cursor: not-allowed; }
+}
+@layer components {
+  .ui-input { @apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-900; min-height: 44px; }
+  .ui-input[aria-invalid="true"] { @apply border-red-700; }
+  .ui-button { @apply inline-flex min-h-11 items-center justify-center rounded-lg bg-blue-700 px-4 py-2 font-medium text-white hover:bg-blue-800 disabled:opacity-60; }
+  .skip-link { @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:p-3; }
+  .app-shell { min-height: 100vh; min-height: 100dvh; @apply flex flex-col md:flex-row; }
+  .page-content { @apply mx-auto w-full max-w-screen-2xl p-3 sm:p-5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

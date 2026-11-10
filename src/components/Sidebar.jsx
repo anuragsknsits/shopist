@@ -1,50 +1,22 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Home, User, Info, Menu, X, BarChart3, FileText, DollarSign, Folder, Calendar } from 'lucide-react'; // Import icons
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Home, User, Info, Menu, BarChart3 } from 'lucide-react';
 
-const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const menuItems = [
-    { name: "Dashboard", to: "/dashboard", icon: <BarChart3 size={24} /> },
-    { name: "Clients", to: "/clients", icon: <User size={24} /> },
-    { name: "Compliance", to: "/compliance", icon: <FileText size={24} /> },
-    { name: "Invoices", to: "/invoices", icon: <DollarSign size={24} /> },
-    { name: "Documents", to: "/documents", icon: <Folder size={24} /> },
-    { name: "Calendar", to: "/calendar", icon: <Calendar size={24} /> },
-    { name: "Home", to: "/", icon: <Home size={24} /> },
-    { name: "Profile", to: "/profile", icon: <User size={24} /> },
-    { name: "About Us", to: "/aboutus", icon: <Info size={24} /> }
-  ];
-
-  return (
-    <div className={`h-screen bg-gray-900 text-white flex flex-col transition-all duration-300 ${isExpanded ? "w-64" : "w-16"}`}>
-      {/* Toggle Button */}
-      <button 
-        onClick={() => setIsExpanded(!isExpanded)} 
-        className="p-3 focus:outline-none hover:bg-gray-700 flex justify-end"
-      >
-        {isExpanded ? <X size={24} /> : <Menu size={24} />}
-      </button>
-
-      {/* Sidebar Links */}
-      <nav className="flex flex-col space-y-4 p-3">
-        {menuItems.map((item, idx) => (
-          <SidebarItem key={idx} to={item.to} icon={item.icon} label={item.name} isExpanded={isExpanded} />
-        ))}
-      </nav>
-    </div>
-  );
-};
-
-const SidebarItem = ({ to, icon, label, isExpanded }) => (
-  <Link 
-    to={to} 
-    className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-700"
-  >
-    {icon}
-    {isExpanded && <span className="text-lg">{label}</span>}
-  </Link>
-);
-
-export default Sidebar;
+const items = [
+  { label: 'Dashboard', to: '/dashboard', icon: BarChart3 },
+  { label: 'Clients', to: '/clients', icon: User, role: 'CLIENT' },
+  { label: 'Home', to: '/', icon: Home },
+  { label: 'Profile', to: '/profile', icon: User },
+  { label: 'About Us', to: '/aboutus', icon: Info },
+];
+export default function Sidebar() {
+  const [open, setOpen] = useState(false);
+  const role = useSelector(state => state.auth.user?.role);
+  return <aside className="w-full shrink-0 bg-gray-900 text-white md:sticky md:top-0 md:h-dvh md:w-56 md:overflow-y-auto">
+    <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-controls="primary-navigation" className="flex min-h-11 items-center gap-2 p-3 md:hidden"><Menu aria-hidden="true" size={20} /> Navigation</button>
+    <nav id="primary-navigation" aria-label="Primary" className={`${open ? 'flex' : 'hidden'} flex-col gap-2 p-3 md:flex`}>
+      {items.filter(item => !item.role || item.role === role).map(({label, to, icon: Icon}) => <NavLink key={to} to={to} end onClick={() => setOpen(false)} className={({isActive}) => `flex min-h-11 items-center gap-3 rounded-lg p-3 ${isActive ? 'bg-blue-700' : 'hover:bg-gray-800'}`}><Icon aria-hidden="true" size={20} /><span>{label}</span></NavLink>)}
+    </nav>
+  </aside>;
+}

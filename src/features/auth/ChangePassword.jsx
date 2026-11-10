@@ -1,3 +1,6 @@
+import FormCard from "../../components/ui/FormCard";
+import FormField from "../../components/ui/FormField";
+import Button from "../../components/ui/Button";
 import React, { useState } from "react";
 import { apiErrorMessage, useChangePasswordMutation } from "../../api/shopApi";
 
@@ -7,11 +10,13 @@ const ChangePassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [changePassword, { isLoading: loading, error, isSuccess, data }] = useChangePasswordMutation();
 
+  const [validationError, setValidationError] = useState("");
   const handleSubmit = (e) => {
+    setValidationError("");
     e.preventDefault();
     if (loading) return;
     if (newPassword !== confirmPassword) {
-      alert("New password and confirm password do not match!");
+      setValidationError("New password and confirm password do not match!");
       return;
     }
 
@@ -19,54 +24,53 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-md">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4">Change Password</h2>
+    <FormCard title="Change Password">
       {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Failed to change password")}</p>}
       {isSuccess && <p className="text-green-500">{typeof data === "string" ? data : "Password changed."}</p>}
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
+
+      {validationError && <p role="alert" className="text-red-700">{validationError}</p>}<form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-gray-700">Old Password</label>
-          <input
+
+          <FormField label="Old Password" autoComplete="current-password"
             type="password"
-            className="w-full px-3 py-2 border rounded-md"
+
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             required
-          />
+           />
         </div>
-        
+
         <div>
-          <label className="block text-gray-700">New Password</label>
-          <input
+
+          <FormField label="New Password" autoComplete="new-password"
             type="password"
-            className="w-full px-3 py-2 border rounded-md"
+
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
-          />
+           />
         </div>
-        
+
         <div>
-          <label className="block text-gray-700">Confirm New Password</label>
-          <input
+
+          <FormField label="Confirm Password" autoComplete="new-password"
             type="password"
-            className="w-full px-3 py-2 border rounded-md"
+
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-          />
+           />
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          className="w-full"
           disabled={loading}
         >
           {loading ? "Updating..." : "Change Password"}
-        </button>
+        </Button>
       </form>
-    </div>
+    </FormCard>
   );
 };
 

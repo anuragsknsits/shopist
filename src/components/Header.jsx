@@ -1,105 +1,36 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import { FaUser, FaCaretDown, FaArrowRight } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Button from './ui/Button';
 
-const Header = ({ isAuthenticated, onLogout, loggingOut }) => {
-  const [showMenu, setShowMenu] = useState(false);
-  const user = useSelector((state) => state.auth?.user);
-  const username = user?.username || user?.email;
-  const dropdownRef = useRef(null);
-  let timeoutId = useRef(null); // To store timeout ID
-
-  const handleLogout = () => {
-    onLogout();
-  };
-
-  const handleMouseEnter = () => {
-    if (timeoutId.current) {
-      clearTimeout(timeoutId.current); // Cancel hide timeout if mouse enters again
-    }
-    setShowMenu(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutId.current = setTimeout(() => {
-      setShowMenu(false);
-    }, 300); // Delay hiding by 300ms (0.3s)
-  };
-
-  return (
-    <header className="bg-white shadow-md">
-      <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <span className="text-xl font-semibold text-gray-700">
-            VKAD Associates
-          </span>
-        </Link>
-
-        {/* Navigation & Auth Links */}
-        <div className="flex items-center space-x-6 relative">
-          {isAuthenticated ? (
-            <div
-              className="relative"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              {/* Profile Button */}
-              <button className="text-gray-700 hover:text-gray-900 flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-md">
-                <FaUser className="text-white" />
-                <span>Hi {username} </span>
-                <FaCaretDown className="ml-2" />
-              </button>
-
-              {/* Styled Dropdown Menu */}
-              {showMenu && (
-                <div
-                  ref={dropdownRef}
-                  className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 shadow-lg rounded-lg z-50"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="px-4 py-2 bg-gray-100 font-semibold">
-                    My Profile
-                  </div>
-                  <ul className="space-y-1 p-2">
-                    <li className="flex justify-between items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      <Link to="/profile" className="w-full">Profile</Link>
-                      <FaArrowRight className="text-gray-500" />
-                    </li>
-                    <li className="flex justify-between items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      <Link to="/settings" className="w-full">Settings</Link>
-                      <FaArrowRight className="text-gray-500" />
-                    </li>
-                    <li className="flex justify-between items-center px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      <Link to="/change-password" className="w-full">Change Password</Link>
-                      <FaArrowRight className="text-gray-500" />
-                    </li>
-                    <li className="flex justify-between items-center px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer">
-                      <button onClick={handleLogout} disabled={loggingOut} className="w-full text-left">
-                        {loggingOut ? "Logging out..." : "Logout"}
-                      </button>
-                      <FaArrowRight className="text-gray-500" />
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              <Link to="/login" className="text-gray-700 hover:text-gray-900">
-                Login
-              </Link>
-              <Link to="/signup" className="text-gray-700 hover:text-gray-900">
-                Sign Up
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </header>
-  );
-};
-
-export default Header;
+export default function Header({ isAuthenticated, onLogout, loggingOut }) {
+  const [open, setOpen] = useState(false);
+  const user = useSelector(state => state.auth.user);
+  const container = useRef(null);
+  const trigger = useRef(null);
+  const { pathname } = useLocation();
+  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const dismiss = event => { if (!container.current?.contains(event.target)) setOpen(false); };
+    const escape = event => { if (event.key === 'Escape') { setOpen(false); trigger.current?.focus(); } };
+    document.addEventListener('pointerdown', dismiss);
+    document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('pointerdown', dismiss); document.removeEventListener('keydown', escape); };
+  }, [open]);
+  return <header className="border-b bg-white">
+    <div className="mx-auto flex max-w-screen-2xl flex-wrap items-center justify-between gap-3 p-4">
+      <Link to="/" className="text-xl font-semibold">VKAD Associates</Link>
+      {isAuthenticated ? <div ref={container} className="relative min-w-0 max-w-full" onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}>
+        <button ref={trigger} type="button" aria-expanded={open} aria-controls="account-links" onClick={() => setOpen(!open)} className="ui-button max-w-full">
+          <span className="truncate">Hi {user?.username || user?.email}</span><span aria-hidden="true" className="ml-2">▾</span>
+        </button>
+        {open && <nav id="account-links" aria-label="Account" className="absolute right-0 z-50 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-lg border bg-white p-2 shadow-lg">
+          <Link className="block rounded p-3 hover:bg-gray-100" to="/profile">Profile</Link>
+          <Link className="block rounded p-3 hover:bg-gray-100" to="/change-password">Change Password</Link>
+          <Button className="w-full" onClick={onLogout} busy={loggingOut}>{loggingOut ? 'Logging out...' : 'Logout'}</Button>
+        </nav>}
+      </div> : <nav aria-label="Account" className="flex flex-wrap gap-4"><Link className="p-2" to="/login">Login</Link><Link className="p-2" to="/signup">Sign Up</Link></nav>}
+    </div>
+  </header>;
+}

@@ -82,7 +82,7 @@ const Dashboard = () => {
 
       {/* 4. Billing & Invoices */}
       <section className="bg-white p-6 shadow rounded-lg mb-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Billing & Invoices</h2>
           <button className="px-4 py-2 bg-blue-500 text-white rounded">Generate Invoice</button>
         </div>

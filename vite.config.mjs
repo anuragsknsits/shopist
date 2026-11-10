@@ -6,6 +6,7 @@ export default defineConfig({
   server: { port: 3000, strictPort: true },
   test: {
     environment: 'jsdom',
+    include: ['src/**/*.test.{js,jsx}'],
     setupFiles: './src/setupTests.js',
   },
 });

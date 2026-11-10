@@ -3,3 +3,6 @@ dist
 build
 .git
 *.local
+.env*
+test-results
+playwright-report

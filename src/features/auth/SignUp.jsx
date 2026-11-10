@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+import FormField from "../../components/ui/FormField";
+import Button from "../../components/ui/Button";
 import React, { useState } from 'react';
 import logo from '../../img/VKADLogo.jpg';
-import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 import { apiErrorMessage, useRegisterMutation } from '../../api/shopApi';
 
 const SignUp = () => {
@@ -17,17 +19,13 @@ const SignUp = () => {
 
   const validateForm = () => {
     const { emailId, password, confirmPassword } = user;
-    
+
     // Check if any field is empty
     if (!emailId || !password || !confirmPassword) {
       return "Please fill all the fields";
     }
 
     // Check if email is valid
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(emailId)) {
-      return "Invalid email address";
-    }
 
     // Check if password is at least 6 characters long
     if (password.length < 6) {
@@ -48,13 +46,15 @@ const SignUp = () => {
     return null;
   };
 
+  const [validationError, setValidationError] = useState("");
   const handleSubmit = (e) => {
+    setValidationError("");
     e.preventDefault();
     if (isLoading) return;
     const validationMessage = validateForm();
-    
+
     if (validationMessage) {
-      alert(validationMessage);
+      setValidationError(validationMessage);
       return;
     }
 
@@ -62,7 +62,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-green-500">
+    <div className="flex justify-center items-center min-h-[70vh] bg-gradient-to-r from-blue-500 to-green-500">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         <div className="flex justify-center mb-6">
           <img src={logo} alt="VKAD Associates" className="w-40 object-contain" />
@@ -70,67 +70,64 @@ const SignUp = () => {
         <h1 className="text-3xl font-semibold text-center text-gray-700">Sign Up</h1>
         {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Registration failed")}</p>}
         {isSuccess && <p role="status" className="text-green-500">Registration successful. You can now sign in.</p>}
-        <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+        {validationError && <p role="alert" className="text-red-700">{validationError}</p>}<form onSubmit={handleSubmit} className="space-y-4 mt-6">
           <div className="flex flex-col">
-            <label htmlFor="emailId" className="text-gray-700">Email ID</label>
-            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-              <HiOutlineMail className="text-gray-400 ml-3" />
-              <input 
-                type="email" 
-                name="emailId" 
-                value={user.emailId} 
-                onChange={handleChange} 
-                required 
+
+            <div className="w-full">
+              <FormField label="Email" autoComplete="username"
+                type="email"
+                name="emailId"
+                value={user.emailId}
+                onChange={handleChange}
+                required
                 placeholder="Enter your email"
-                className="mt-2 p-3 w-full border-0 focus:ring-0"
-              />
+
+               />
             </div>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="password" className="text-gray-700">Password</label>
-            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-              <HiLockClosed className="text-gray-400 ml-3" />
-              <input 
-                type="password" 
-                name="password" 
-                value={user.password} 
-                onChange={handleChange} 
-                required 
+
+            <div className="w-full">
+              <FormField label="Password" autoComplete="new-password"
+                type="password"
+                name="password"
+                value={user.password}
+                onChange={handleChange}
+                required
                 placeholder="Enter your password"
-                className="mt-2 p-3 w-full border-0 focus:ring-0"
-              />
+
+               />
             </div>
           </div>
           <div className="flex flex-col">
-            <label htmlFor="confirmPassword" className="text-gray-700">Confirm Password</label>
-            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-              <HiLockClosed className="text-gray-400 ml-3" />
-              <input 
-                type="password" 
-                name="confirmPassword" 
-                value={user.confirmPassword} 
-                onChange={handleChange} 
-                required 
+
+            <div className="w-full">
+              <FormField label="Confirm Password" autoComplete="new-password"
+                type="password"
+                name="confirmPassword"
+                value={user.confirmPassword}
+                onChange={handleChange}
+                required
                 placeholder="Confirm your password"
-                className="mt-2 p-3 w-full border-0 focus:ring-0"
-              />
+
+               />
             </div>
           </div>
-          <button
+          <Button
             disabled={isLoading}
-            type="submit" 
-            className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            type="submit"
+            className="w-full"
           >
             {isLoading ? "Signing up..." : "Sign Up"}
-          </button>
+          </Button>
         </form>
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-600 hover:underline">
+            <Link to="/login" className="text-blue-600 hover:underline">
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -9,6 +9,7 @@ const AboutUs = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
+      <h1 className="mb-6 text-2xl font-semibold">About Us</h1>
       <div className="space-y-4">
         {[
           { header: "ACA Vinit Kumar & Associates", body: "An esteemed Chartered Accountant firm in Patna with a growing team of professionals. Established to create a benchmark in value-added and quality professional services in Direct and Indirect Taxation in India." },
@@ -26,13 +27,13 @@ const AboutUs = () => {
         ].map((item, index) => (
           <div key={index} className="border-b">
             <button
-              onClick={() => handleToggle(index)}
-              className="w-full text-left text-xl font-semibold py-3 px-4 bg-gray-100 hover:bg-gray-200 rounded-md focus:outline-none"
+              type="button" aria-expanded={activeIndex === index} aria-controls={`about-panel-${index}`} onClick={() => handleToggle(index)}
+              className="w-full text-left text-xl font-semibold py-3 px-4 bg-gray-100 hover:bg-gray-200 rounded-md"
             >
               {item.header}
             </button>
             {activeIndex === index && (
-              <div className="py-3 px-4 text-lg bg-gray-50">
+              <div id={`about-panel-${index}`} className="py-3 px-4 text-lg bg-gray-50">
                 {typeof item.body === 'string' ? item.body : item.body}
               </div>
             )}

@@ -1,9 +1,10 @@
+import FormField from "../../components/ui/FormField";
+import Button from "../../components/ui/Button";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiErrorMessage, useLoginMutation } from "../../api/shopApi";
 import logo from "../../img/VKADLogo.jpg";
-import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ emailId: "", password: "" });
@@ -26,7 +27,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-green-500">
+    <div className="flex justify-center items-center min-h-[70vh] bg-gradient-to-r from-blue-500 to-green-500">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
         <div className="flex justify-center">
           <img src={logo} alt="VKAD Associates Logo" className="w-32 mb-4" />
@@ -35,60 +36,58 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col">
-            <label className="text-gray-700">Email</label>
-            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-              <HiOutlineMail className="text-gray-400 ml-3" />
-              <input
+
+            <div className="w-full">
+              <FormField label="Email" autoComplete="username"
                 type="email"
                 name="emailId"
                 value={credentials.emailId}
                 onChange={handleChange}
                 placeholder="Enter email"
                 required
-                className="mt-2 p-3 w-full border-0 focus:ring-0"
-              />
+
+               />
             </div>
           </div>
 
           <div className="flex flex-col">
-            <label className="text-gray-700">Password</label>
-            <div className="flex items-center border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-              <HiLockClosed className="text-gray-400 ml-3" />
-              <input
+
+            <div className="w-full">
+              <FormField label="Password" autoComplete="current-password"
                 type="password"
                 name="password"
                 value={credentials.password}
                 onChange={handleChange}
                 placeholder="Enter password"
                 required
-                className="mt-2 p-3 w-full border-0 focus:ring-0"
-              />
+
+               />
             </div>
           </div>
 
           {error && <div role="alert" className="text-red-500 text-sm">{apiErrorMessage(error, "Login failed")}</div>}
 
-          <button
+          <Button
             type="submit"
             disabled={checkingSession || loading}
-            className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition"
+            className="w-full"
           >
             {checkingSession ? "Checking session..." : loading ? "Logging in..." : "Login"}
-          </button>
+          </Button>
         </form>
 
         <div className="text-center mt-4">
-          <a href="/forgot-password" className="text-blue-600 hover:underline">
+          <Link to="/forgot-password" className="text-blue-600 hover:underline">
             Forgot Password?
-          </a>
+          </Link>
         </div>
 
         <div className="text-center mt-4">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <a href="/signup" className="text-blue-600 hover:underline">
+            <Link to="/signup" className="text-blue-600 hover:underline">
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div >

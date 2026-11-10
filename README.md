@@ -27,3 +27,7 @@ If the browser console shows `bundle.js`, `__webpack_require__`, or `hot-update.
 Production uses the UI origin by default. Serve the UI over HTTPS and route `/csrf-token` and `/auth/**` to the gateway before the SPA fallback. To use a separate gateway, set `VITE_GATEWAY_URL` before building and configure credentialed CORS for the UI origin. If migrating an existing environment, rename `REACT_APP_GATEWAY_URL` to `VITE_GATEWAY_URL`. Vite includes this value in the browser bundle.
 
 See the [UI knowledge graph](KNOWLEDGE_GRAPH.md) for route ownership, API endpoints and session behavior.
+
+## Architecture and production readiness
+
+See [architecture and reusable form examples](docs/ARCHITECTURE.md), [production/CDN setup](docs/DEPLOYMENT.md), and the [security review](docs/SECURITY_REVIEW.md). Run npm run check for unit tests and a production build; npm run test:e2e checks Chromium and WebKit layouts. Authentication screens now live in src/features/auth and route composition in src/app.

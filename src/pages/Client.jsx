@@ -4,16 +4,16 @@ const Client = () => {
   return (
     <div>
         <section className="bg-white p-6 shadow rounded-lg mb-6">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-wrap gap-3 justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">Clients</h2>
           <button className="px-4 py-2 bg-blue-500 text-white rounded">Add New Client</button>
         </div>
         <input
-          type="text"
+          aria-label="Search clients" type="text"
           placeholder="Search by Name, GST Number, PAN, etc."
           className="w-full p-2 border border-gray-300 rounded mb-4"
         />
-        <table className="w-full table-auto">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Clients table"><table className="w-full table-auto">
           <thead>
             <tr>
               <th className="px-4 py-2">Name</th>
@@ -33,7 +33,7 @@ const Client = () => {
             </tr>
             {/* Additional client rows can be added here */}
           </tbody>
-        </table>
+        </table></div>
       </section>
     </div>
   )

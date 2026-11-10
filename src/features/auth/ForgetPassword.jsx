@@ -1,3 +1,6 @@
+import FormCard from "../../components/ui/FormCard";
+import FormField from "../../components/ui/FormField";
+import Button from "../../components/ui/Button";
 import React, { useState } from "react";
 import { apiErrorMessage, useForgotPasswordMutation } from "../../api/shopApi";
 
@@ -11,10 +14,7 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-md">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-        Forgot Password
-      </h2>
+    <FormCard title="Forgot Password">
       {error && <p role="alert" className="text-red-500">{apiErrorMessage(error, "Failed to send reset link")}</p>}
       {isSuccess && (
         <p className="text-green-500">
@@ -23,30 +23,25 @@ const ForgetPassword = () => {
       )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            className="block text-gray-700"
-            htmlFor="email"
-          >
-            Email Address
-          </label>
-          <input
+
+          <FormField label="Email Address" autoComplete="email"
             id="email"
             type="email"
-            className="w-full px-3 py-2 border rounded-md"
+
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-          />
+           />
         </div>
-        <button
+        <Button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          className="w-full"
           disabled={loading}
         >
           {loading ? "Sending..." : "Send Reset Link"}
-        </button>
+        </Button>
       </form>
-    </div>
+    </FormCard>
   );
 };
 
