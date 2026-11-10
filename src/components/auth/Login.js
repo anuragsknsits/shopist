@@ -9,7 +9,7 @@ const Login = () => {
   const [credentials, setCredentials] = useState({ emailId: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const { checkingSession, loading, error, isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isAuthenticated) navigate("/dashboard");
@@ -21,6 +21,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (checkingSession || loading) return;
     dispatch(loginRequest(credentials));
   };
 
@@ -69,10 +70,10 @@ const Login = () => {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={checkingSession || loading}
             className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition"
           >
-            {loading ? "Logging in..." : "Login"}
+            {checkingSession ? "Checking session..." : loading ? "Logging in..." : "Login"}
           </button>
         </form>
 

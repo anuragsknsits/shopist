@@ -10,6 +10,7 @@ import { checkAuthState } from './redux/actions/loginAction';
 import { CookiesProvider } from 'react-cookie';
 import { BrowserRouter } from 'react-router-dom';  // ✅ Added BrowserRouter here
 
+
 // Check authentication state on app load
 store.dispatch(checkAuthState());
 

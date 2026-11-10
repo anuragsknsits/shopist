@@ -1,11 +1,12 @@
 import {
-  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, CHECK_AUTH_STATE,
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, LOGOUT_FAILURE,
   CHANGE_PASSWORD_REQUEST, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE,
   FORGET_PASSWORD_REQUEST, FORGET_PASSWORD_SUCCESS, FORGET_PASSWORD_FAILURE
 } from "../constant";
 
 const initialState = {
   isAuthenticated: false,
+  checkingSession: true,
   user: null,
   loading: false,
   error: null,
@@ -25,6 +26,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
+        checkingSession: false,
         user: action.payload,
         loading: false,
         error: null,
@@ -35,17 +37,15 @@ export const authReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
-    case LOGOUT_REQUEST:
+    case LOGOUT_SUCCESS:
       return {
-        ...state,
-        isAuthenticated: false,
-        user: null,
-        successMessage: null, // ✅ Reset on logout
+        ...initialState,
+        checkingSession: false,
       };
-    case CHECK_AUTH_STATE:
+    case LOGOUT_FAILURE:
       return {
         ...state,
-        loading: false,
+        error: action.payload,
       };
     case CHANGE_PASSWORD_REQUEST:
       return { 

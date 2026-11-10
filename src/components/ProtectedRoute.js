@@ -1,15 +1,17 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ allowedRoles }) => {
-  const { isAuthenticated, user } = useSelector((state) => {
-    console.log("auth " , state.auth);
-    return state.auth;
-  });
+  const { checkingSession, isAuthenticated, user } = useSelector((state) => state.auth);
+  const location = useLocation();
+
+  if (checkingSession) {
+    return <p role="status">Checking your session…</p>;
+  }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: location }}  replace />;
   }
 
   // If allowedRoles exist, check if the user has the required role

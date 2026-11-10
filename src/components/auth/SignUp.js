@@ -58,10 +58,7 @@ const SignUp = () => {
       return;
     }
 
-    // Proceed with signup (e.g., call API or log the user object)
-    console.log(user);
     dispatch(registerRequest(user));
-    //navigate('/login');
   };
 
   return (

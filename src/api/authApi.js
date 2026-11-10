@@ -1,19 +1,6 @@
-// src/api/authApi.js
-import axios from "../../api/axiosConfig";  // Use the new axios config
+import axios from './axiosConfig';
 
-export const loginApi = (credentials) => {
-    return axios.post('/auth/login', credentials);
-};
-
-export const checkAuthApi = () => {
-    return axios.get('/auth/verifyToken');
-};
-
-export const logoutApi = () => {
-    return axios.post('/auth/logout');
-};
-
-export const registerApi = (payload) => {
-    return axios.post('/auth/register', payload);
-};
-
+export const loginApi = credentials => axios.post('/auth/login', credentials);
+export const checkAuthApi = () => axios.get('/auth/verifyToken');
+export const logoutApi = () => axios.post('/auth/logout');
+export const registerApi = payload => axios.post('/auth/register', payload);

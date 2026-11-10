@@ -7,7 +7,6 @@ function* fetchProfile() {
   try {
     const response = yield call(axios.get, '/auth/profile');
     yield put(fetchProfileSuccess(response.data));
-    console.log(response.data);
   } catch (error) {
     yield put(fetchProfileFailure(error.message));
   }
@@ -15,7 +14,6 @@ function* fetchProfile() {
 
 function* updateProfileSaga(action) {
   try {
-    console.log(action.payload);
     const response = yield call(axios.put, '/auth/profile', action.payload, { withCredentials: true });
     yield put(updateProfileSuccess(response.data));
   } catch (error) {

@@ -1,76 +1,31 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { fetchCsrfToken } from '../utils/fetchCsrfToken';
 
-// Create an Axios instance
+const gatewayURL = new URL(
+  process.env.REACT_APP_GATEWAY_URL ||
+    (process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : window.location.origin),
+  window.location.origin
+);
+
 const instance = axios.create({
-  baseURL: 'http://localhost:8080',
-  withCredentials: true, // Important for cookies to be sent
-});
-
-// Initialize CSRF token
-let csrfToken = null;
-
-const csrfInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: gatewayURL.href,
   withCredentials: true,
+  xsrfCookieName: null, // Use the gateway's response token instead of the raw cookie.
+  timeout: 15000,
 });
 
-// Function to fetch CSRF token
-const fetchCsrfToken = async () => {
-  try {
-    const response = await csrfInstance.get('/csrf-token');
-    csrfToken = response.data.token;
-  } catch (error) {
-    console.error('Error fetching CSRF token:', error);
+const safeMethods = ['get', 'head', 'options', 'trace'];
+
+instance.interceptors.request.use(async config => {
+  if (new URL(instance.getUri(config), gatewayURL).origin !== gatewayURL.origin) {
+    throw new Error('API requests must use the configured gateway origin.');
   }
-};
 
-// Fetch CSRF token once at the start
-//fetchCsrfToken();
-
-// Add a request interceptor to include CSRF token and Authorization header
-instance.interceptors.request.use(
-  async config => {
-    // Ensure CSRF token is available, if not fetch it
-    let cookieToken = Cookies.get('XSRF-TOKEN');
-    if (typeof (cookieToken) !== 'undefined') {
-      if (!csrfToken) {
-        csrfToken = Cookies.get('XSRF-TOKEN');
-        Cookies.set('XSRF-TOKEN', csrfToken, { secure: true, sameSite: 'Strict' });
-      }
-    } else {
-      await fetchCsrfToken();
-    }
-
-    if (csrfToken) {
-      config.headers['X-XSRF-TOKEN'] = csrfToken;
-    }
-
-    const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('authToken='));
-    if (tokenCookie) {
-      const token = tokenCookie.split('=')[1];
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
+  if (!safeMethods.includes(config.method.toLowerCase())) {
+    const { headerName, token } = await fetchCsrfToken(instance);
+    config.headers.set(headerName, token);
   }
-);
-
-// Add a response interceptor to handle expired JWT token
-instance.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      // JWT token is expired or invalid
-      Cookies.remove('authToken', { path: '/' });
-      // Optionally, redirect to login page or dispatch a logout action
-      window.location.href = '/login'; // Redirect to login page
-    }
-    return Promise.reject(error);
-  }
-);
+  return config;
+});
 
 export default instance;
